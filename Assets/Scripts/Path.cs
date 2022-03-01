@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TimberCottage.Pathfinding
@@ -53,9 +51,9 @@ namespace TimberCottage.Pathfinding
             }
             
             Gizmos.color = Color.white;
-            foreach (Line l in TurnBoundaries)
+            foreach (Line line in TurnBoundaries)
             {
-                l.DrawWithGizmos(10);
+                line.DrawWithGizmos(10);
             }
         }
     }

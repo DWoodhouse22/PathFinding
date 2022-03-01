@@ -25,56 +25,60 @@ namespace TimberCottage.Pathfinding
 
         IEnumerator FindPath(Vector3 startPos, Vector3 targetpos)
         {
-            Vector3[] waypoints = new Vector3[0];
-            bool pathFound = false;
-            
+            Vector3[] waypoints = Array.Empty<Vector3>();
             Node startNode = _pathFindingGrid.NodeFromWorldPoint(startPos);
             Node targetNode = _pathFindingGrid.NodeFromWorldPoint(targetpos);
-
-            if (startNode.Walkable && targetNode.Walkable)
+            
+            if (startNode.Walkable == false || targetNode.Walkable == false)
             {
-                Heap<Node> openSet = new Heap<Node>(_pathFindingGrid.MaxSize);
-                HashSet<Node> closedSet = new HashSet<Node>();
-                openSet.Add(startNode);
+                _requestManager.FinishedProcessingPath(waypoints, false);
+                yield break;
+            }
+            
+            bool pathFound = false;
+            Heap<Node> openSet = new Heap<Node>(_pathFindingGrid.MaxSize);
+            HashSet<Node> closedSet = new HashSet<Node>();
+            openSet.Add(startNode);
 
-                while (openSet.Count > 0)
+            while (openSet.Count > 0)
+            {
+                Node currentNode = openSet.RemoveFirst();
+                closedSet.Add(currentNode);
+
+                if (currentNode == targetNode)
                 {
-                    Node currentNode = openSet.RemoveFirst();
-                    closedSet.Add(currentNode);
+                    pathFound = true;
+                    break;
+                }
 
-                    if (currentNode == targetNode)
+                foreach (Node neighbour in _pathFindingGrid.GetNeighbours(currentNode))
+                {
+                    if (!neighbour.Walkable || closedSet.Contains(neighbour))
                     {
-                        pathFound = true;
-                        break;
+                        continue;
                     }
 
-                    foreach (Node neighbour in _pathFindingGrid.GetNeighbours(currentNode))
+                    int newMovementCostToNeighbour = currentNode.GCost + GetDistance(currentNode, neighbour) + neighbour.MovementPenalty;
+                    if (newMovementCostToNeighbour >= neighbour.GCost && openSet.Contains(neighbour))
                     {
-                        if (!neighbour.Walkable || closedSet.Contains(neighbour))
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        int newMovementCostToNeighbour = currentNode.GCost + GetDistance(currentNode, neighbour) + neighbour.MovementPenalty;
-                        if (newMovementCostToNeighbour < neighbour.GCost || !openSet.Contains(neighbour))
-                        {
-                            neighbour.GCost = newMovementCostToNeighbour;
-                            neighbour.HCost = GetDistance(neighbour, targetNode);
-                            neighbour.ParentNode = currentNode;
+                    neighbour.GCost = newMovementCostToNeighbour;
+                    neighbour.HCost = GetDistance(neighbour, targetNode);
+                    neighbour.ParentNode = currentNode;
 
-                            if (!openSet.Contains(neighbour))
-                            {
-                                openSet.Add(neighbour);
-                            }
-                            else
-                            {
-                                openSet.UpdateItem(neighbour);
-                            }
-                        }
+                    if (!openSet.Contains(neighbour))
+                    {
+                        openSet.Add(neighbour);
+                    }
+                    else
+                    {
+                        openSet.UpdateItem(neighbour);
                     }
                 }
             }
-
+            
             if (pathFound)
             {
                 waypoints = RetracePath(startNode, targetNode);
