@@ -10,6 +10,8 @@ namespace TimberCottage.Pathfinding
     [RequireComponent(typeof(PathFindingGrid), typeof(PathRequestManager))]
     public class PathFinding : MonoBehaviour
     {
+        [SerializeField] private int diagonalBaseCost = 14;
+        [SerializeField] private int adjacentBaseCost = 10;
         private PathRequestManager _requestManager;
         private PathFindingGrid _pathFindingGrid;
         private void Awake()
@@ -112,11 +114,12 @@ namespace TimberCottage.Pathfinding
 
             for (int i = 1; i < path.Count; i++)
             {
-                Vector2 directionNew =
-                    new Vector2(path[i - 1].GridX - path[i].GridX, path[i - 1].GridY - path[i].GridY);
+                Node prevNode = path[i - 1];
+                Node currNode = path[i];
+                Vector2 directionNew = new Vector2(prevNode.GridX - currNode.GridX, prevNode.GridY - currNode.GridY);
                 if (directionNew != directionOld)
                 {
-                    waypoints.Add(path[i].WorldPosition);
+                    waypoints.Add(currNode.WorldPosition);
                 }
 
                 directionOld = directionNew;
@@ -132,10 +135,10 @@ namespace TimberCottage.Pathfinding
             
             if (distX > distY)
             {
-                return 14 * distY + 10 * (distX - distY);
+                return diagonalBaseCost * distY + adjacentBaseCost * (distX - distY);
             }
 
-            return 14 * distX + 10 * (distY - distX);
+            return diagonalBaseCost * distX + adjacentBaseCost * (distY - distX);
         }
     }
 }

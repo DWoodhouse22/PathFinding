@@ -8,71 +8,88 @@ namespace TimberCottage.Pathfinding
 {
     public class Unit : MonoBehaviour
     {
-        private const float MIN_PATH_UPDATE_TIME = 0.2f;
-        private const float PATH_UPDATE_MOVE_THRESHOLD = 0.5f;
-        public Transform Target;
-        public float speed = 20;
-        public float turnSpeed = 3;
-        public float turnDistance = 5;
-        public float stoppingDistance = 10;
-        private Path path;
-        private IEnumerator _followPathRoutine = null;
+        [SerializeField] private Transform target;
+        [SerializeField] private float speed = 20;
+        [SerializeField] private float turnSpeed = 3;
+        [SerializeField] private float turnDistance = 5;
+        [SerializeField] private float stoppingDistance = 10;
+        
+        private PathRequestManager _pathRequestManager;
+        private const float MinPathUpdateTime = 0.2f;
+        private const float PathUpdateMoveThreshold = 0.5f;
+        private Path _path;
+        private IEnumerator _followPathRoutine;
+        private IEnumerator _updatePathRoutine;
 
-        private void Start()
+        private void Awake()
         {
-            StartCoroutine(UpdatePath());
+            _pathRequestManager = FindObjectOfType<PathRequestManager>();
         }
 
-        void OnPathFound(Vector3[] waypoints, bool success)
+        private void Update()
         {
-            if (success)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (_followPathRoutine != null)
+                if (_updatePathRoutine == null)
                 {
-                    StopCoroutine(_followPathRoutine);
+                    _updatePathRoutine = UpdatePath();
+                    StartCoroutine(_updatePathRoutine);
                 }
-
-                path = new Path(waypoints, transform.position, turnDistance, stoppingDistance);
-                _followPathRoutine = FollowPath();
-                StartCoroutine(_followPathRoutine);
             }
         }
 
-        IEnumerator UpdatePath()
+        private void OnPathFound(Vector3[] waypoints, bool success)
         {
-            if (Time.timeSinceLevelLoad < 0.3f)
+            if (!success)
             {
-                yield return new WaitForSeconds(.3f);
+                return;
+            }
+            
+            if (_followPathRoutine != null)
+            {
+                StopCoroutine(_followPathRoutine);
             }
 
-            PathRequestManager.RequestPath(transform.position, Target.position, OnPathFound);
-            float sqrMoveThreshold = PATH_UPDATE_MOVE_THRESHOLD * PATH_UPDATE_MOVE_THRESHOLD;
-            Vector3 targetPosOld = Target.position;
+            _path = new Path(waypoints, transform.position, turnDistance, stoppingDistance);
+            _followPathRoutine = FollowPath();
+            StartCoroutine(_followPathRoutine);
+        }
+
+        private IEnumerator UpdatePath()
+        {
+            Vector3 targetPosition = target.position;
+            _pathRequestManager.RequestPath(transform.position, targetPosition, OnPathFound);
+            const float sqrMoveThreshold = PathUpdateMoveThreshold * PathUpdateMoveThreshold;
+            Vector3 targetPosOld = targetPosition;
             while (true)
             {
-                yield return new WaitForSeconds(MIN_PATH_UPDATE_TIME);
-                if ((Target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold)
+                yield return new WaitForSeconds(MinPathUpdateTime);
+                if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold == false)
                 {
-                    PathRequestManager.RequestPath(transform.position, Target.position, OnPathFound);
-                    targetPosOld = Target.position;
+                    continue;
                 }
+
+                targetPosition = target.position;
+                _pathRequestManager.RequestPath(transform.position, targetPosition, OnPathFound);
+                targetPosOld = targetPosition;
             }
         }
 
-        IEnumerator FollowPath()
+        private IEnumerator FollowPath()
         {
             bool followingPath = true;
             int pathIndex = 0;
-            transform.LookAt(path.LookPoints[0]);
+            transform.LookAt(_path.LookPoints[0]);
 
             float speedPercent = 1;
             
             while (followingPath)
             {
-                Vector2 pos2D = new Vector2(transform.position.x, transform.position.z);
-                while (path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D))
+                Vector3 position = transform.position;
+                Vector2 pos2D = new Vector2(position.x, position.z);
+                while (_path.TurnBoundaries[pathIndex].HasCrossedLine(pos2D))
                 {
-                    if (pathIndex == path.FinishLineIndex)
+                    if (pathIndex == _path.FinishLineIndex)
                     {
                         followingPath = false;
                         break;
@@ -81,31 +98,31 @@ namespace TimberCottage.Pathfinding
                     pathIndex++;
                 }
 
-                if (followingPath)
+                if (followingPath == false)
                 {
-                    if (pathIndex > -path.SlowDownIndex && stoppingDistance > 0)
-                    {
-                        speedPercent = Mathf.Clamp01(path.TurnBoundaries[path.FinishLineIndex].DistanceFromPoint(pos2D) / stoppingDistance);
-                        if (speedPercent < 0.01f)
-                        {
-                            followingPath = false;
-                        }
-                    }
-                    Quaternion targetRotation =
-                        Quaternion.LookRotation(path.LookPoints[pathIndex] - transform.position);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-                    transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
+                    break;
                 }
+                
+                if (pathIndex > -_path.SlowDownIndex && stoppingDistance > 0)
+                {
+                    speedPercent = Mathf.Clamp01(_path.TurnBoundaries[_path.FinishLineIndex].DistanceFromPoint(pos2D) / stoppingDistance);
+                    if (speedPercent < 0.01f)
+                    {
+                        followingPath = false;
+                    }
+                }
+                
+                Quaternion targetRotation = Quaternion.LookRotation(_path.LookPoints[pathIndex] - transform.position);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+                transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
+                
                 yield return null;
             }
         }
 
-        private void OnDrawGizmos()
-        {
-            if (path != null)
-            {
-                path.DrawWithGizmos();
-            }
-        }
+        // private void OnDrawGizmos()
+        // {
+        //     _path?.DrawWithGizmos();
+        // }
     }
 }
