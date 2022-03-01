@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TimberCottage.Pathfinding
@@ -10,7 +8,7 @@ namespace TimberCottage.Pathfinding
         public Vector3 WorldPosition { get; }
         public int GCost;
         public int HCost;
-        public int FCost => GCost + HCost;
+        private int FCost => GCost + HCost;
         public int GridX { get; }
         public int GridY { get; }
         public Node ParentNode;

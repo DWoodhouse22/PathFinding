@@ -1,28 +1,28 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace TimberCottage.Pathfinding
 {
-    public class Grid : MonoBehaviour
+    public class PathFindingGrid : MonoBehaviour
     {
         [SerializeField] private LayerMask unwalkableMask;
         [SerializeField] private Vector2 gridWorldSize;
         [SerializeField] private float nodeRadius;
-        [SerializeField] private bool _drawGizmos;
+        [SerializeField] private bool drawGizmos;
+        [SerializeField] private TerrainType[] walkableRegions;
+        [SerializeField] private int obstacleProximityPenalty = 10;
 
-        private Dictionary<int, int> _walkableRegionDictionary = new Dictionary<int, int>();
-        public LayerMask WalkableMask;
-        public TerrainType[] WalkableRegions;
-        public int MaxSize => _gridSizeX * _gridSizeY;
         private Node[,] _grid;
         private float _nodeDiameter;
         private int _gridSizeX;
         private int _gridSizeY;
-        public int ObstacleProximityPenalty = 10;
-        private int penaltyMin = int.MaxValue;
-        private int penaltyMax = int.MinValue;
+        private readonly Dictionary<int, int> _walkableRegionDictionary = new Dictionary<int, int>();
+        private LayerMask _walkableMask;
+        private int _penaltyMin = int.MaxValue;
+        private int _penaltyMax = int.MinValue;
+        
+        public int MaxSize => _gridSizeX * _gridSizeY;
         
         private void Awake()
         {
@@ -30,9 +30,9 @@ namespace TimberCottage.Pathfinding
             _gridSizeX = Mathf.RoundToInt(gridWorldSize.x / _nodeDiameter);
             _gridSizeY = Mathf.RoundToInt(gridWorldSize.y / _nodeDiameter);
 
-            foreach (TerrainType region in WalkableRegions)
+            foreach (TerrainType region in walkableRegions)
             {
-                WalkableMask.value |= region.TerrainMask.value;
+                _walkableMask.value |= region.TerrainMask.value;
                 _walkableRegionDictionary.Add((int)Mathf.Log(region.TerrainMask.value, 2), region.TerrainPenalty);
             }
             
@@ -49,18 +49,17 @@ namespace TimberCottage.Pathfinding
                 for (int y = 0; y < _gridSizeY; y++)
                 {
                     Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * _nodeDiameter + nodeRadius) + Vector3.forward *(y * _nodeDiameter + nodeRadius);
-                    bool walkable = !Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask);
                     int movementPenalty = 0;
-
                     Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
-                    if (Physics.Raycast(ray, out RaycastHit hit, 100, WalkableMask))
+                    if (Physics.Raycast(ray, out RaycastHit hit, 100, _walkableMask))
                     {
                         _walkableRegionDictionary.TryGetValue(hit.collider.gameObject.layer, out movementPenalty);
                     }
 
+                    bool walkable = !Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask);
                     if (!walkable)
                     {
-                        movementPenalty += ObstacleProximityPenalty;
+                        movementPenalty += obstacleProximityPenalty;
                     }
                     
                     _grid[x, y] = new Node(walkable, worldPoint, x, y, movementPenalty);
@@ -114,14 +113,14 @@ namespace TimberCottage.Pathfinding
                     blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, y] / (kernelSize * kernelSize));
                     _grid[x, y].MovementPenalty = blurredPenalty;
 
-                    if (blurredPenalty > penaltyMax)
+                    if (blurredPenalty > _penaltyMax)
                     {
-                        penaltyMax = blurredPenalty;
+                        _penaltyMax = blurredPenalty;
                     }
 
-                    if (blurredPenalty < penaltyMin)
+                    if (blurredPenalty < _penaltyMin)
                     {
-                        penaltyMin = blurredPenalty;
+                        _penaltyMin = blurredPenalty;
                     }
                 }
             }
@@ -142,15 +141,21 @@ namespace TimberCottage.Pathfinding
 
                     int checkX = node.GridX + x;
                     int checkY = node.GridY + y;
-
-                    if (checkX >= 0 && checkX < _gridSizeX && checkY >= 0 && checkY < _gridSizeY)
+                    if (IsValidGridPosition(checkX, checkY) == false)
                     {
-                        neighbours.Add(_grid[checkX, checkY]);
+                        continue;
                     }
+                    
+                    neighbours.Add(_grid[checkX, checkY]);
                 }
             }
             
             return neighbours;
+        }
+
+        private bool IsValidGridPosition(int posX, int posY)
+        {
+            return posX >= 0 && posX < _gridSizeX && posY >= 0 && posY < _gridSizeY;
         }
 
         public Node NodeFromWorldPoint(Vector3 worldPosition)
@@ -169,19 +174,19 @@ namespace TimberCottage.Pathfinding
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-            
-            if (_grid != null && _drawGizmos)
-            {
-                foreach (Node node in _grid)
-                {
-                    Gizmos.color = Color.Lerp(Color.white, Color.black,Mathf.InverseLerp(penaltyMin, penaltyMax, node.MovementPenalty));
-                    
-                    Gizmos.color = node.Walkable ? Gizmos.color : Color.red;
-                    Gizmos.DrawCube(node.WorldPosition, Vector3.one * _nodeDiameter);
-                }
 
+            if (_grid == null || drawGizmos == false)
+            {
+                return;
             }
 
+            foreach (Node node in _grid)
+            {
+                Gizmos.color = Color.Lerp(Color.white, Color.black,Mathf.InverseLerp(_penaltyMin, _penaltyMax, node.MovementPenalty));
+                
+                Gizmos.color = node.Walkable ? Gizmos.color : Color.red;
+                Gizmos.DrawCube(node.WorldPosition, Vector3.one * _nodeDiameter);
+            }
         }
     }
 

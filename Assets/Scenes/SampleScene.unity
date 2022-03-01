@@ -481,11 +481,8 @@ MonoBehaviour:
     m_Bits: 64
   gridWorldSize: {x: 100, y: 100}
   nodeRadius: 0.5
-  _drawGizmos: 1
-  WalkableMask:
-    serializedVersion: 2
-    m_Bits: 0
-  WalkableRegions:
+  drawGizmos: 0
+  walkableRegions:
   - TerrainMask:
       serializedVersion: 2
       m_Bits: 128
@@ -494,7 +491,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 256
     TerrainPenalty: 5
-  ObstacleProximityPenalty: 0
+  ObstacleProximityPenalty: 10
 --- !u!114 &514875849
 MonoBehaviour:
   m_ObjectHideFlags: 0

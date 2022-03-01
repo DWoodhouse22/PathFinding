@@ -7,15 +7,15 @@ using Debug = UnityEngine.Debug;
 
 namespace TimberCottage.Pathfinding
 {
-    [RequireComponent(typeof(Grid), typeof(PathRequestManager))]
+    [RequireComponent(typeof(PathFindingGrid), typeof(PathRequestManager))]
     public class PathFinding : MonoBehaviour
     {
         private PathRequestManager _requestManager;
-        private Grid grid;
+        private PathFindingGrid _pathFindingGrid;
         private void Awake()
         {
             _requestManager = GetComponent<PathRequestManager>();
-            grid = GetComponent<Grid>();
+            _pathFindingGrid = GetComponent<PathFindingGrid>();
         }
 
         public void StartFindPath(Vector3 startPos, Vector3 targetPos)
@@ -28,12 +28,12 @@ namespace TimberCottage.Pathfinding
             Vector3[] waypoints = new Vector3[0];
             bool pathFound = false;
             
-            Node startNode = grid.NodeFromWorldPoint(startPos);
-            Node targetNode = grid.NodeFromWorldPoint(targetpos);
+            Node startNode = _pathFindingGrid.NodeFromWorldPoint(startPos);
+            Node targetNode = _pathFindingGrid.NodeFromWorldPoint(targetpos);
 
             if (startNode.Walkable && targetNode.Walkable)
             {
-                Heap<Node> openSet = new Heap<Node>(grid.MaxSize);
+                Heap<Node> openSet = new Heap<Node>(_pathFindingGrid.MaxSize);
                 HashSet<Node> closedSet = new HashSet<Node>();
                 openSet.Add(startNode);
 
@@ -48,7 +48,7 @@ namespace TimberCottage.Pathfinding
                         break;
                     }
 
-                    foreach (Node neighbour in grid.GetNeighbours(currentNode))
+                    foreach (Node neighbour in _pathFindingGrid.GetNeighbours(currentNode))
                     {
                         if (!neighbour.Walkable || closedSet.Contains(neighbour))
                         {
