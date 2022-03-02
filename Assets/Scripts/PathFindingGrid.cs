@@ -69,7 +69,7 @@ namespace TimberCottage.Pathfinding
             BlurPenaltyMap(3);
         }
 
-        void BlurPenaltyMap(int blurSize)
+        private void BlurPenaltyMap(int blurSize)
         {
             int kernelSize = blurSize * 2 + 1;
             int kernelExtents = (kernelSize - 1) / 2;
