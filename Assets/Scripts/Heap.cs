@@ -1,9 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
-using UnityEngine;
-using UnityEngine.SubsystemsImplementation;
 
 namespace TimberCottage.Pathfinding
 {
@@ -54,31 +49,27 @@ namespace TimberCottage.Pathfinding
                 int childIndexLeft = item.HeapIndex * 2 + 1;
                 int childIndexRight = item.HeapIndex * 2 + 2;
                 int swapIndex = 0;
-
-                if (childIndexLeft < _currentItemCount)
-                {
-                    swapIndex = childIndexLeft;
-                    if (childIndexRight < _currentItemCount)
-                    {
-                        if (_items[childIndexLeft].CompareTo(_items[childIndexRight]) < 0)
-                        {
-                            swapIndex = childIndexRight;
-                        }
-                    }
-
-                    if (item.CompareTo(_items[swapIndex]) < 0)
-                    {
-                        Swap(item, _items[swapIndex]);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                else
+                
+                if (childIndexLeft >= _currentItemCount)
                 {
                     return;
                 }
+                
+                swapIndex = childIndexLeft;
+                if (childIndexRight < _currentItemCount)
+                {
+                    if (_items[childIndexLeft].CompareTo(_items[childIndexRight]) < 0)
+                    {
+                        swapIndex = childIndexRight;
+                    }
+                }
+
+                if (item.CompareTo(_items[swapIndex]) >= 0)
+                {
+                    return;
+                }
+
+                Swap(item, _items[swapIndex]);
             }
         }
 
@@ -88,15 +79,12 @@ namespace TimberCottage.Pathfinding
             while (true)
             {
                 T parentItem = _items[parentIndex];
-                if (item.CompareTo(parentItem) > 0)
-                {
-                    Swap(item, parentItem);
-                }
-                else
+                if (item.CompareTo(parentItem) <= 0)
                 {
                     break;
                 }
 
+                Swap(item, parentItem);
                 parentIndex = (item.HeapIndex - 1) / 2;
             }
         }
