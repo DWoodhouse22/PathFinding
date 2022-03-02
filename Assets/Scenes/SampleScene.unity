@@ -380,7 +380,7 @@ MonoBehaviour:
   - TerrainMask:
       serializedVersion: 2
       m_Bits: 512
-    TerrainPenalty: 5
+    TerrainPenalty: 7
   obstacleProximityPenalty: 15
 --- !u!114 &514875849
 MonoBehaviour:
@@ -1168,7 +1168,7 @@ Transform:
   m_GameObject: {fileID: 1486052473}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 25.7, y: 0.01, z: 4.1}
-  m_LocalScale: {x: 3, y: 1, z: 3}
+  m_LocalScale: {x: 1.2375, y: 1, z: 1.31214}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
@@ -1452,10 +1452,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2130382852}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -32.2, y: 0.01, z: 6.6}
+  m_LocalRotation: {x: -0, y: -0.24389051, z: -0, w: 0.9698028}
+  m_LocalPosition: {x: -13.4, y: 0.01, z: 0.3}
   m_LocalScale: {x: 3, y: 1, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -28.233, z: 0}

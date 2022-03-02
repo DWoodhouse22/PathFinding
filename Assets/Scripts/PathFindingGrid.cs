@@ -56,13 +56,21 @@ namespace TimberCottage.Pathfinding
         /// <param name="size">Rectangle extents</param>
         private void CalculateNodes(Vector2Int origin, Vector2Int size)
         {
+            if (origin.x < 0 || origin.y < 0)
+            {
+                Debug.LogError("CalculateNodes: Origin must be at least Vector2.Zero");
+                return;
+            }
             Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
 
-            for (int x = origin.x; x < size.x; x++)
+            int maxX = size.x > _gridSizeX ? _gridSizeX : size.x;
+            int maxY = size.y > _gridSizeY ? _gridSizeY : size.y;
+            
+            for (int x = origin.x; x < maxX; x++)
             {
-                for (int y = origin.y; y < size.y; y++)
+                for (int y = origin.y; y < maxY; y++)
                 {
-                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * _nodeDiameter + nodeRadius) + Vector3.forward *(y * _nodeDiameter + nodeRadius);
+                    Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * _nodeDiameter + nodeRadius) + Vector3.forward * (y * _nodeDiameter + nodeRadius);
                     int movementPenalty = 0;
                     Ray ray = new Ray(worldPoint + Vector3.up * 50, Vector3.down);
                     if (Physics.Raycast(ray, out RaycastHit hit, 100, _walkableMask))
@@ -80,7 +88,7 @@ namespace TimberCottage.Pathfinding
                 }
             }
             
-            BlurPenaltyMap(3, size.x, size.y);
+            BlurPenaltyMap(3, maxX, maxY);
         }
 
         private void BlurPenaltyMap(int blurSize, int sizeX, int sizeY)
