@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace TimberCottage.Pathfinding
 {
@@ -19,10 +21,12 @@ namespace TimberCottage.Pathfinding
         private int _gridSizeY;
         private readonly Dictionary<int, int> _walkableRegionDictionary = new Dictionary<int, int>();
         private LayerMask _walkableMask;
-        private int _penaltyMin = int.MaxValue;
-        private int _penaltyMax = int.MinValue;
         
         public int MaxSize => _gridSizeX * _gridSizeY;
+        
+        // For debug only
+        private int _penaltyMin = int.MaxValue;
+        private int _penaltyMax = int.MinValue;
         
         private void Awake()
         {
@@ -42,11 +46,21 @@ namespace TimberCottage.Pathfinding
         private void CreateGrid()
         {
             _grid = new Node[_gridSizeX, _gridSizeY];
+            CalculateNodes(Vector2Int.zero, new Vector2Int(_gridSizeX, _gridSizeY));
+        }
+
+        /// <summary>
+        /// Calculate movement costs for nodes for specified grid section
+        /// </summary>
+        /// <param name="origin">Bottom left corner</param>
+        /// <param name="size">Rectangle extents</param>
+        private void CalculateNodes(Vector2Int origin, Vector2Int size)
+        {
             Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
 
-            for (int x = 0; x < _gridSizeX; x++)
+            for (int x = origin.x; x < size.x; x++)
             {
-                for (int y = 0; y < _gridSizeY; y++)
+                for (int y = origin.y; y < size.y; y++)
                 {
                     Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * _nodeDiameter + nodeRadius) + Vector3.forward *(y * _nodeDiameter + nodeRadius);
                     int movementPenalty = 0;
@@ -65,18 +79,18 @@ namespace TimberCottage.Pathfinding
                     _grid[x, y] = new Node(walkable, worldPoint, x, y, movementPenalty);
                 }
             }
-
-            BlurPenaltyMap(3);
+            
+            BlurPenaltyMap(3, size.x, size.y);
         }
 
-        private void BlurPenaltyMap(int blurSize)
+        private void BlurPenaltyMap(int blurSize, int sizeX, int sizeY)
         {
             int kernelSize = blurSize * 2 + 1;
             int kernelExtents = (kernelSize - 1) / 2;
-            int[,] penaltiesHorizontalPass = new int[_gridSizeX, _gridSizeY];
-            int[,] penaltiesVerticalPass = new int[_gridSizeX, _gridSizeY];
+            int[,] penaltiesHorizontalPass = new int[sizeX, sizeY];
+            int[,] penaltiesVerticalPass = new int[sizeX, sizeY];
 
-            for (int y = 0; y < _gridSizeY; y++)
+            for (int y = 0; y < sizeY; y++)
             {
                 for (int x = -kernelExtents; x <= kernelExtents; x++)
                 {
@@ -84,16 +98,16 @@ namespace TimberCottage.Pathfinding
                     penaltiesHorizontalPass[0, y] += _grid[sampleX, y].MovementPenalty;
                 }
 
-                for (int x = 1; x < _gridSizeX; x++)
+                for (int x = 1; x < sizeX; x++)
                 {
-                    int removeIndex = Mathf.Clamp(x - kernelExtents - 1, 0, _gridSizeX);
-                    int addIndex = Mathf.Clamp(x + kernelExtents, 0, _gridSizeX - 1);
+                    int removeIndex = Mathf.Clamp(x - kernelExtents - 1, 0, sizeX);
+                    int addIndex = Mathf.Clamp(x + kernelExtents, 0, sizeX - 1);
 
                     penaltiesHorizontalPass[x, y] = penaltiesHorizontalPass[x - 1, y] - _grid[removeIndex, y].MovementPenalty + _grid[addIndex, y].MovementPenalty;
                 }
             }
             
-            for (int x = 0; x < _gridSizeX; x++)
+            for (int x = 0; x < sizeX; x++)
             {
                 for (int y = -kernelExtents; y <= kernelExtents; y++)
                 {
@@ -104,10 +118,10 @@ namespace TimberCottage.Pathfinding
                 int blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, 0] / (kernelSize * kernelSize));
                 _grid[x, 0].MovementPenalty = blurredPenalty;
 
-                for (int y = 1; y < _gridSizeY; y++)
+                for (int y = 1; y < sizeY; y++)
                 {
-                    int removeIndex = Mathf.Clamp(y - kernelExtents - 1, 0, _gridSizeY);
-                    int addIndex = Mathf.Clamp(y + kernelExtents, 0, _gridSizeY - 1);
+                    int removeIndex = Mathf.Clamp(y - kernelExtents - 1, 0, sizeY);
+                    int addIndex = Mathf.Clamp(y + kernelExtents, 0, sizeY - 1);
 
                     penaltiesVerticalPass[x, y] = penaltiesVerticalPass[x, y - 1] - penaltiesHorizontalPass[x, removeIndex] + penaltiesHorizontalPass[x, addIndex];
                     blurredPenalty = Mathf.RoundToInt((float)penaltiesVerticalPass[x, y] / (kernelSize * kernelSize));
@@ -182,6 +196,7 @@ namespace TimberCottage.Pathfinding
 
             foreach (Node node in _grid)
             {
+                if (node == null) continue;
                 Gizmos.color = Color.Lerp(Color.white, Color.black,Mathf.InverseLerp(_penaltyMin, _penaltyMax, node.MovementPenalty));
                 
                 Gizmos.color = node.Walkable ? Gizmos.color : Color.red;
