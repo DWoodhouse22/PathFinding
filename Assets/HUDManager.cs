@@ -8,23 +8,17 @@ namespace TimberCottage.Pathfinding
 {
     public class HUDManager : MonoBehaviour
     {
-        [SerializeField] private PathFindingGrid pathFindingGrid;
+        [SerializeField] private ConstructionManager constructionManager;
         [SerializeField] private Button buildHouseButton;
-        [SerializeField] private House housePrefab;
 
         private void Awake()
         {
-            if (pathFindingGrid == null)
-            {
-                pathFindingGrid = FindObjectOfType<PathFindingGrid>();
-            }
             buildHouseButton.onClick.AddListener(BuildHouseButtonClicked);
         }
 
         private void BuildHouseButtonClicked()
         {
-            House house = GameObject.Instantiate(housePrefab, Vector3.zero, Quaternion.identity);
-            pathFindingGrid.CalculateNodes(Vector2Int.zero, new Vector2Int(100,100));
+            constructionManager.StartPlacingStructure(ConstructionManager.eStructureType.House);
         }
     }
 }

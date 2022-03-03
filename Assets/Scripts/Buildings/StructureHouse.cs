@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace  TimberCottage.Pathfinding
 {
-    public class House : MonoBehaviour
+    public class StructureHouse : StructureBase
     {
         [SerializeField] private Transform unitExit;
     }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3406304900977975675}
   - component: {fileID: 3406304900977975676}
   - component: {fileID: 3406304900977975677}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3406304902139091107}
   - component: {fileID: 5062854259068916999}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7615487549006236082}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: UnitExit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

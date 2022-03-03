@@ -24,6 +24,8 @@ namespace TimberCottage.Pathfinding
         private LayerMask _walkableMask;
         
         public int MaxSize => _gridSizeX * _gridSizeY;
+        public int GridSizeX => _gridSizeX;
+        public int GridSizeY => _gridSizeY;
         
         // For debug only
         private int _penaltyMin = int.MaxValue;
