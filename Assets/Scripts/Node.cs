@@ -4,7 +4,7 @@ namespace TimberCottage.Pathfinding
 {
     public class Node : IHeapItem<Node>
     {
-        public bool Walkable;
+        public bool Walkable { get; }
         public Vector3 WorldPosition { get; }
         public int GCost;
         public int HCost;
