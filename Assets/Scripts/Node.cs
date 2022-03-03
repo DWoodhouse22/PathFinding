@@ -13,12 +13,7 @@ namespace TimberCottage.Pathfinding
         public int GridY { get; }
         public Node ParentNode;
         public int MovementPenalty;
-        public int HeapIndex
-        {
-            get => _heapIndex;
-            set => _heapIndex = value;
-        }
-        private int _heapIndex;
+        public int HeapIndex { get; set; }
 
         public Node(bool walkable, Vector3 worldPosition, int gridX, int gridY, int movementPenalty)
         {

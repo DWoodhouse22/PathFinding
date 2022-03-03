@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.Animations;
 using Debug = UnityEngine.Debug;
 
 namespace TimberCottage.Pathfinding
@@ -27,7 +28,7 @@ namespace TimberCottage.Pathfinding
         // For debug only
         private int _penaltyMin = int.MaxValue;
         private int _penaltyMax = int.MinValue;
-        
+
         private void Awake()
         {
             _nodeDiameter = nodeRadius * 2;
@@ -54,7 +55,7 @@ namespace TimberCottage.Pathfinding
         /// </summary>
         /// <param name="origin">Bottom left corner</param>
         /// <param name="size">Rectangle extents</param>
-        private void CalculateNodes(Vector2Int origin, Vector2Int size)
+        public void CalculateNodes(Vector2Int origin, Vector2Int size)
         {
             if (origin.x < 0 || origin.y < 0)
             {
