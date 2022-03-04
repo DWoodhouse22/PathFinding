@@ -23,6 +23,10 @@ namespace TimberCottage.Pathfinding
         private List<VillagerBase> _availableVillagers;
         private List<VillagerBuilder> _builders;
         private List<VillagerCarrier> _carriers;
+
+        private int _totalSpawnedBaseVillagers;
+        private int _totalSpawnedBuilders;
+        private int _totalSpawnedCarriers;
         
         public enum EVillagerType
         {
@@ -48,10 +52,11 @@ namespace TimberCottage.Pathfinding
         public void SpawnVillager(Vector3 spawnLocation, Quaternion rotation)
         {
             VillagerBase v = Instantiate(villagerBasePrefab, spawnLocation, rotation, villagerPoolTransform);
-            v.name = $"BaseVillager {_allVillagers.Count}";
+            v.name = $"BaseVillager{_totalSpawnedBaseVillagers}";
             v.Init(EVillagerType.Base);
             _allVillagers.Add(v);
             _availableVillagers.Add(v);
+            _totalSpawnedBaseVillagers++;
         }
 
         /// <summary>
@@ -70,6 +75,8 @@ namespace TimberCottage.Pathfinding
             VillagerBuilder builder = Instantiate(villagerBuilderPrefab, villagerTransform.position, 
                 villagerTransform.rotation, builderPoolTransform);
             builder.Init(EVillagerType.Builder);
+            builder.name = $"Builder{_totalSpawnedBuilders}";
+            _totalSpawnedBuilders++;
             _availableVillagers.Remove(villager);
             _allVillagers.Remove(villager);
             _allVillagers.Add(builder);
@@ -95,6 +102,8 @@ namespace TimberCottage.Pathfinding
             VillagerCarrier carrier = Instantiate(villagerCarrierPrefab, villagerTransform.position, 
                 villagerTransform.rotation, carrierPoolTransform);
             carrier.Init(EVillagerType.Carrier);
+            carrier.name = $"Carrier{_totalSpawnedCarriers}";
+            _totalSpawnedCarriers++;
             _availableVillagers.Remove(villager);
             _allVillagers.Remove(villager);
             _allVillagers.Add(carrier);
