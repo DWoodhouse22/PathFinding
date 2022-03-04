@@ -9,15 +9,16 @@ namespace TimberCottage.Pathfinding
     {
         [SerializeField] private Transform bottomLeft;
         public Vector3 BottomLeft => bottomLeft.position;
-        
+        public Vector3 Extents => _boxCollider.size;
         public event Action<bool> OnCollisionEvent;
 
         private HashSet<Collider> _collisions;
         private bool _constructed = false;
-
+        private BoxCollider _boxCollider;
         private void Awake()
         {
             _collisions = new HashSet<Collider>();
+            _boxCollider = GetComponent<BoxCollider>();
         }
         
         private void OnTriggerEnter(Collider other)

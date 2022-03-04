@@ -66,8 +66,8 @@ namespace TimberCottage.Pathfinding
             }
             Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x / 2 - Vector3.forward * gridWorldSize.y / 2;
 
-            int maxX = size.x > _gridSizeX ? _gridSizeX : size.x;
-            int maxY = size.y > _gridSizeY ? _gridSizeY : size.y;
+            int maxX = origin.x + (size.x * 2) > _gridSizeX ? _gridSizeX : origin.x + (size.x * 2);
+            int maxY = origin.y + (size.y * 2) > _gridSizeY ? _gridSizeY : origin.y + (size.y * 2);
             
             for (int x = origin.x; x < maxX; x++)
             {
@@ -185,6 +185,12 @@ namespace TimberCottage.Pathfinding
 
         public Node NodeFromWorldPoint(Vector3 worldPosition)
         {
+            Vector2Int gridPosition = GridPositionFromWorldPoint(worldPosition);
+            return _grid[gridPosition.x, gridPosition.y];
+        }
+
+        public Vector2Int GridPositionFromWorldPoint(Vector3 worldPosition)
+        {
             float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
             float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
             percentX = Mathf.Clamp01(percentX);
@@ -193,7 +199,7 @@ namespace TimberCottage.Pathfinding
             int x = Mathf.RoundToInt((_gridSizeX - 1) * percentX);
             int y = Mathf.RoundToInt((_gridSizeY - 1) * percentY);
 
-            return _grid[x, y];
+            return new Vector2Int(x, y);
         }
         
         private void OnDrawGizmos()

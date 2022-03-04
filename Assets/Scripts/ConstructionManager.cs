@@ -88,7 +88,9 @@ namespace TimberCottage.Pathfinding
             toSpawn.OnCollisionEvent -= OnStructureCollisionEvent;
             toSpawn.OnConstructed();
             // TODO: only calculate the grid surrounding the new structure
-            pathFindingGrid.CalculateNodes(Vector2Int.zero, new Vector2Int(pathFindingGrid.GridSizeX, pathFindingGrid.GridSizeY));
+            Vector2Int originGridPosition = pathFindingGrid.GridPositionFromWorldPoint(toSpawn.BottomLeft);
+            Vector2Int size = new Vector2Int(Mathf.RoundToInt(toSpawn.Extents.x), Mathf.RoundToInt(toSpawn.Extents.z));
+            pathFindingGrid.CalculateNodes(originGridPosition, size);
             _placeStructureRoutine = null;
         }
 
