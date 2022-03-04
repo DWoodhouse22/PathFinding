@@ -13,9 +13,11 @@ namespace TimberCottage.Pathfinding
         [SerializeField] private PathFindingGrid pathFindingGrid;
         
         private IEnumerator _placeStructureRoutine;
-        private Dictionary<eStructureType, StructureBase> _structureTypeToGameObject;
+        private Dictionary<EStructureType, StructureBase> _structureTypeToGameObject;
+        private bool _canStructureBePlaced = false;
 
-        public enum eStructureType
+        private int numHouses = 0;
+        public enum EStructureType
         {
             Undefined = 0,
             House
@@ -23,13 +25,13 @@ namespace TimberCottage.Pathfinding
 
         private void Awake()
         {
-            _structureTypeToGameObject = new Dictionary<eStructureType, StructureBase>
+            _structureTypeToGameObject = new Dictionary<EStructureType, StructureBase>
             {
-                { eStructureType.House, structureHousePrefab }
+                { EStructureType.House, structureHousePrefab }
             };
         }
 
-        public void StartPlacingStructure(eStructureType structureType)
+        public void StartPlacingStructure(EStructureType structureType)
         {
             if (_structureTypeToGameObject.TryGetValue(structureType, out StructureBase structure) == false)
             {
@@ -41,6 +43,7 @@ namespace TimberCottage.Pathfinding
                 return;
             }
 
+            
             _placeStructureRoutine = PlaceStructureCoroutine(structure);
             StartCoroutine(_placeStructureRoutine);
         }
@@ -51,6 +54,7 @@ namespace TimberCottage.Pathfinding
             bool structureBuilt = false;
             Camera cam = Camera.main;
             StructureBase toSpawn = null;
+            _canStructureBePlaced = true;
             
             while (structureBuilt == false)
             {
@@ -60,6 +64,9 @@ namespace TimberCottage.Pathfinding
                     if (firstRayHit == false)
                     {
                         toSpawn = Instantiate(structure, hit.point, Quaternion.identity);
+                        toSpawn.gameObject.name = $"House{numHouses}";
+                        toSpawn.OnCollisionEvent += OnStructureCollisionEvent;
+                        numHouses++;
                         firstRayHit = true;
                     }
 
@@ -67,8 +74,8 @@ namespace TimberCottage.Pathfinding
                     {
                         toSpawn.transform.position = hit.point;
 
-                        // TODO: investigate why MouseButtonUp/Down doesn't register
-                        if (Input.GetMouseButton(0))
+                        // TODO: investigate why MouseButtonUp/Down doesn't register here
+                        if (_canStructureBePlaced && Input.GetMouseButton(0))
                         {
                             structureBuilt = true;
                         }
@@ -77,10 +84,17 @@ namespace TimberCottage.Pathfinding
 
                 yield return new WaitForEndOfFrame();
             }
-            
+
+            toSpawn.OnCollisionEvent -= OnStructureCollisionEvent;
+            toSpawn.OnConstructed();
             // TODO: only calculate the grid surrounding the new structure
             pathFindingGrid.CalculateNodes(Vector2Int.zero, new Vector2Int(pathFindingGrid.GridSizeX, pathFindingGrid.GridSizeY));
             _placeStructureRoutine = null;
+        }
+
+        private void OnStructureCollisionEvent(bool colliding)
+        {
+            _canStructureBePlaced = !colliding;
         }
     }
 }

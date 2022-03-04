@@ -18,7 +18,7 @@ namespace TimberCottage.Pathfinding
 
         private void BuildHouseButtonClicked()
         {
-            constructionManager.StartPlacingStructure(ConstructionManager.eStructureType.House);
+            constructionManager.StartPlacingStructure(ConstructionManager.EStructureType.House);
         }
     }
 }
