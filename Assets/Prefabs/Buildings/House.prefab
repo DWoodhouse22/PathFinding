@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bottomLeft: {fileID: 2675663355112414667}
+  structureMesh: {fileID: 3406304900977975674}
   unitExit: {fileID: 7615487549006236082}
 --- !u!54 &4366777440545341460
 Rigidbody:
