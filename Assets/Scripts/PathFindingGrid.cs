@@ -91,7 +91,7 @@ namespace TimberCottage.Pathfinding
                 }
             }
             
-            BlurPenaltyMap(3, maxX, maxY);
+            BlurPenaltyMap(3, _gridSizeX, _gridSizeY);
         }
 
         private void BlurPenaltyMap(int blurSize, int sizeX, int sizeY)
