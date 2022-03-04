@@ -74,7 +74,7 @@ namespace TimberCottage.Pathfinding
             _allVillagers.Remove(villager);
             _allVillagers.Add(builder);
             _builders.Add(builder);
-            Destroy(villager);
+            Destroy(villager.gameObject);
 
             DebugPrintVillagerCounts();
         }
@@ -99,7 +99,7 @@ namespace TimberCottage.Pathfinding
             _allVillagers.Remove(villager);
             _allVillagers.Add(carrier);
             _carriers.Add(carrier);
-            Destroy(villager);
+            Destroy(villager.gameObject);
 
             DebugPrintVillagerCounts();
         }
@@ -117,7 +117,7 @@ namespace TimberCottage.Pathfinding
             _allVillagers.Remove(builder);
             Transform builderTransform = builder.transform;
             SpawnVillager(builderTransform.position, builderTransform.rotation);
-            Destroy(builder);
+            Destroy(builder.gameObject);
             
             DebugPrintVillagerCounts();
         }
@@ -135,33 +135,9 @@ namespace TimberCottage.Pathfinding
             _allVillagers.Remove(carrier);
             Transform carrierTransform = carrier.transform;
             SpawnVillager(carrierTransform.position, carrierTransform.rotation);
+            Destroy(carrier.gameObject);
 
-            Destroy(carrier);
-            
             DebugPrintVillagerCounts();
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                AllocateBuilder();
-            }
-            
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                AllocateCarrier();
-            }
-
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                DeAllocateBuilder();
-            }
-
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                DeAllocateCarrier();
-            }
         }
 
         private void DebugPrintVillagerCounts()

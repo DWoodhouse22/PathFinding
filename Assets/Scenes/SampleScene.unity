@@ -846,6 +846,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 514875848}
     - target: {fileID: 5984775408824904355, guid: c23db8c0d9f860a48b6a49bb15721b33, type: 3}
+      propertyPath: villagerManager
+      value: 
+      objectReference: {fileID: 260510475}
+    - target: {fileID: 5984775408824904355, guid: c23db8c0d9f860a48b6a49bb15721b33, type: 3}
       propertyPath: constructionManager
       value: 
       objectReference: {fileID: 486907724}
