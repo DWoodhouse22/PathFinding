@@ -17,6 +17,8 @@ namespace TimberCottage.Pathfinding
         public Vector3 Extents => _boxCollider.size;
         public event Action<bool> OnCollisionEvent;
 
+        protected VillagerManager _villagerManager;
+        
         private HashSet<Collider> _collisions;
         private bool _constructed;
         private BoxCollider _boxCollider;
@@ -26,6 +28,7 @@ namespace TimberCottage.Pathfinding
         {
             _collisions = new HashSet<Collider>();
             _boxCollider = GetComponent<BoxCollider>();
+            _villagerManager = FindObjectOfType<VillagerManager>();
         }
         
         private void OnTriggerEnter(Collider other)

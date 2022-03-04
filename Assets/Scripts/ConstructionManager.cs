@@ -42,7 +42,6 @@ namespace TimberCottage.Pathfinding
                 return;
             }
 
-            
             _placeStructureRoutine = PlaceStructureCoroutine(structure);
             StartCoroutine(_placeStructureRoutine);
         }
@@ -57,29 +56,32 @@ namespace TimberCottage.Pathfinding
             
             while (structureBuilt == false)
             {
+                yield return new WaitForEndOfFrame();
+                
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit, 1000f,groundLayer))
+                if (Physics.Raycast(ray, out RaycastHit hit, 1000f,groundLayer) == false)
                 {
-                    if (firstRayHit == false)
-                    {
-                        toSpawn = Instantiate(structure, hit.point, Quaternion.identity);
-                        toSpawn.OnCollisionEvent += OnStructureCollisionEvent;
-                        firstRayHit = true;
-                    }
-
-                    if (toSpawn != null)
-                    {
-                        toSpawn.transform.position = hit.point;
-
-                        // TODO: investigate why MouseButtonUp/Down doesn't register here
-                        if (_canStructureBePlaced && Input.GetMouseButton(0))
-                        {
-                            structureBuilt = true;
-                        }
-                    }
+                    continue;
+                }
+                
+                if (firstRayHit == false)
+                {
+                    toSpawn = Instantiate(structure, hit.point, Quaternion.identity);
+                    toSpawn.OnCollisionEvent += OnStructureCollisionEvent;
+                    firstRayHit = true;
                 }
 
-                yield return new WaitForEndOfFrame();
+                if (toSpawn == null)
+                {
+                    continue;
+                }
+                    
+                toSpawn.transform.position = hit.point;
+                // TODO: investigate why MouseButtonUp/Down doesn't register here
+                if (_canStructureBePlaced && Input.GetMouseButton(0))
+                {
+                    structureBuilt = true;
+                }
             }
 
             toSpawn.OnCollisionEvent -= OnStructureCollisionEvent;

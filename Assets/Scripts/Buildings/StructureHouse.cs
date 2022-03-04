@@ -7,7 +7,6 @@ namespace  TimberCottage.Pathfinding
     public class StructureHouse : StructureBase
     {
         [SerializeField] private Transform unitExit;
-        [SerializeField] private VillagerBase villagerBasePrefab;
 
         private readonly int _numVillagersToSpawn = 5;
         private readonly float _delayBetweenVillagerSpawn = 1f;
@@ -26,7 +25,7 @@ namespace  TimberCottage.Pathfinding
             int villagersSpawned = 0;
             while (villagersSpawned < _numVillagersToSpawn)
             {
-                Instantiate(villagerBasePrefab, unitExit.position, Quaternion.identity);
+                _villagerManager.SpawnVillager(unitExit.position, unitExit.rotation);
                 villagersSpawned++;
                 yield return new WaitForSeconds(_delayBetweenVillagerSpawn);
             }

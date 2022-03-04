@@ -20,10 +20,16 @@ namespace TimberCottage.Pathfinding
         private Path _path;
         private IEnumerator _followPathRoutine;
         private IEnumerator _updatePathRoutine;
-
+        private VillagerManager.EVillagerType _villagerType;
+        
         private void Awake()
         {
             _pathRequestManager = FindObjectOfType<PathRequestManager>();
+        }
+
+        public void Init(VillagerManager.EVillagerType villagerType)
+        {
+            _villagerType = villagerType;
         }
 
         private void Update()

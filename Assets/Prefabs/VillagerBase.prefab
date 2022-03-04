@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7554619931718487954}
   - component: {fileID: -6934156608760797333}
   m_Layer: 0
-  m_Name: Villager
+  m_Name: VillagerBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 00fffddd21d8c954e829f89ccbd3601c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
