@@ -14,9 +14,8 @@ namespace TimberCottage.Pathfinding
         
         private IEnumerator _placeStructureRoutine;
         private Dictionary<EStructureType, StructureBase> _structureTypeToGameObject;
-        private bool _canStructureBePlaced = false;
+        private bool _canStructureBePlaced;
 
-        private int numHouses = 0;
         public enum EStructureType
         {
             Undefined = 0,
@@ -64,9 +63,7 @@ namespace TimberCottage.Pathfinding
                     if (firstRayHit == false)
                     {
                         toSpawn = Instantiate(structure, hit.point, Quaternion.identity);
-                        toSpawn.gameObject.name = $"House{numHouses}";
                         toSpawn.OnCollisionEvent += OnStructureCollisionEvent;
-                        numHouses++;
                         firstRayHit = true;
                     }
 
@@ -87,7 +84,7 @@ namespace TimberCottage.Pathfinding
 
             toSpawn.OnCollisionEvent -= OnStructureCollisionEvent;
             toSpawn.OnConstructed();
-            // TODO: only calculate the grid surrounding the new structure
+            
             Vector2Int originGridPosition = pathFindingGrid.GridPositionFromWorldPoint(toSpawn.BottomLeft);
             Vector2Int size = new Vector2Int(Mathf.RoundToInt(toSpawn.Extents.x), Mathf.RoundToInt(toSpawn.Extents.z));
             pathFindingGrid.CalculateNodes(originGridPosition, size);

@@ -56,7 +56,7 @@ namespace TimberCottage.Pathfinding
         /// <summary>
         /// Called when structure is placed into the world
         /// </summary>
-        public void OnConstructed()
+        public virtual void OnConstructed()
         {
             _constructed = true;
             _collisions = null;

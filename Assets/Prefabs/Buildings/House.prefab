@@ -162,6 +162,7 @@ MonoBehaviour:
   bottomLeft: {fileID: 2675663355112414667}
   structureMesh: {fileID: 3406304900977975674}
   unitExit: {fileID: 7615487549006236082}
+  villagerBasePrefab: {fileID: -6934156608760797333, guid: 824ab5f725bc21348bd7f5b29654a001, type: 3}
 --- !u!54 &4366777440545341460
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -215,7 +216,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7346063303144186793}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.7}
+  m_LocalPosition: {x: 0, y: -0.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3406304900977975674}

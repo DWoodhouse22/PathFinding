@@ -6,7 +6,7 @@ using UnityEngine.PlayerLoop;
 
 namespace TimberCottage.Pathfinding
 {
-    public class Unit : MonoBehaviour
+    public class VillagerBase : MonoBehaviour
     {
         [SerializeField] private Transform target;
         [SerializeField] private float speed = 20;
