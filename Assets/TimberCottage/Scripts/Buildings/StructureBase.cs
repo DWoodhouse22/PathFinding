@@ -10,6 +10,7 @@ namespace TimberCottage.Pathfinding
     /// </summary>
     public class StructureBase : MonoBehaviour
     {
+        [SerializeField] private bool spawnedAtGameStart;
         [SerializeField] private Transform bottomLeft;
         [SerializeField] private Transform structureMesh;
         [SerializeField] private bool drawGizmos;
@@ -30,7 +31,15 @@ namespace TimberCottage.Pathfinding
             _collisions = new HashSet<Collider>();
             _villagerManager = FindObjectOfType<VillagerManager>();
         }
-        
+
+        private void Start()
+        {
+            if (spawnedAtGameStart)
+            {
+                OnConstructed();
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (_constructed)
