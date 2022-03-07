@@ -11,7 +11,12 @@ namespace  TimberCottage.Pathfinding
         private readonly int _numVillagersToSpawn = 5;
         private readonly float _delayBetweenVillagerSpawn = 1f;
         private IEnumerator _onConstructedRoutine;
-        
+
+        public override void OnPlaced()
+        {
+            base.OnPlaced();
+        }
+
         public override void OnConstructed()
         {
             base.OnConstructed();

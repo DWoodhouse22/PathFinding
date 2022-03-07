@@ -11,6 +11,8 @@ namespace TimberCottage.Pathfinding
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private StructureHouse structureHousePrefab;
         [SerializeField] private PathFindingGrid pathFindingGrid;
+        [SerializeField] private Transform underConstructionRootTransform;
+        [SerializeField] private Transform constructedRootTransform;
         
         private IEnumerator _placeStructureRoutine;
         private Dictionary<EStructureType, StructureBase> _structureTypeToGameObject;
@@ -49,12 +51,12 @@ namespace TimberCottage.Pathfinding
         private IEnumerator PlaceStructureCoroutine(StructureBase structure)
         {
             bool firstRayHit = false;
-            bool structureBuilt = false;
+            bool structurePlaced = false;
             Camera cam = Camera.main;
             StructureBase toSpawn = null;
             _canStructureBePlaced = true;
             
-            while (structureBuilt == false)
+            while (structurePlaced == false)
             {
                 yield return new WaitForEndOfFrame();
                 
@@ -80,12 +82,13 @@ namespace TimberCottage.Pathfinding
                 // TODO: investigate why MouseButtonUp/Down doesn't register here
                 if (_canStructureBePlaced && Input.GetMouseButton(0))
                 {
-                    structureBuilt = true;
+                    structurePlaced = true;
+                    toSpawn.transform.SetParent(underConstructionRootTransform);
                 }
             }
 
             toSpawn.OnCollisionEvent -= OnStructureCollisionEvent;
-            toSpawn.OnConstructed();
+            toSpawn.OnPlaced();
             
             Vector2Int originGridPosition = pathFindingGrid.GridPositionFromWorldPoint(toSpawn.BottomLeft);
             Vector2Int size = new Vector2Int(Mathf.RoundToInt(toSpawn.Extents.x), Mathf.RoundToInt(toSpawn.Extents.y));
