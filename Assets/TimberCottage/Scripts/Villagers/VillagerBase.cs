@@ -8,7 +8,7 @@ namespace TimberCottage.Pathfinding
 {
     public class VillagerBase : MonoBehaviour
     {
-        [SerializeField] private Transform target;
+        //[SerializeField] private Transform target;
         [SerializeField] private float speed = 20;
         [SerializeField] private float turnSpeed = 3;
         [SerializeField] private float turnDistance = 5;
@@ -21,13 +21,20 @@ namespace TimberCottage.Pathfinding
         private IEnumerator _followPathRoutine;
         private IEnumerator _updatePathRoutine;
         private VillagerManager.EVillagerType _villagerType;
-        private VillagerBaseBehaviour _villagerBehaviour;
+        private VillagerBaseBehaviour _villagerBaseBehaviour;
+        protected IVillagerBehaviour _villagerBehaviour;
         
         private void Awake()
         {
-            _villagerBehaviour = gameObject.AddComponent<VillagerBaseBehaviour>();
-            _villagerBehaviour.InitBehaviour(this, transform.position);
+            InitBehaviour();
             _pathRequestManager = FindObjectOfType<PathRequestManager>();
+        }
+
+        protected virtual void InitBehaviour()
+        {
+            _villagerBaseBehaviour = gameObject.AddComponent<VillagerBaseBehaviour>();
+            _villagerBehaviour = _villagerBaseBehaviour;
+            _villagerBaseBehaviour.InitBehaviour(this, transform.position);
         }
 
         private void Start()
@@ -38,18 +45,6 @@ namespace TimberCottage.Pathfinding
         public void Init(VillagerManager.EVillagerType villagerType)
         {
             _villagerType = villagerType;
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (_updatePathRoutine == null)
-                {
-                    _updatePathRoutine = UpdatePath();
-                    StartCoroutine(_updatePathRoutine);
-                }
-            }
         }
 
         public void OnPathFound(Vector3[] waypoints, bool success)
@@ -69,25 +64,25 @@ namespace TimberCottage.Pathfinding
             StartCoroutine(_followPathRoutine);
         }
 
-        private IEnumerator UpdatePath()
-        {
-            Vector3 targetPosition = target.position;
-            _pathRequestManager.RequestPath(transform.position, targetPosition, OnPathFound);
-            const float sqrMoveThreshold = PathUpdateMoveThreshold * PathUpdateMoveThreshold;
-            Vector3 targetPosOld = targetPosition;
-            while (true)
-            {
-                yield return new WaitForSeconds(MinPathUpdateTime);
-                if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold == false)
-                {
-                    continue;
-                }
-
-                targetPosition = target.position;
-                _pathRequestManager.RequestPath(transform.position, targetPosition, OnPathFound);
-                targetPosOld = targetPosition;
-            }
-        }
+        // private IEnumerator UpdatePath()
+        // {
+        //     Vector3 targetPosition = target.position;
+        //     _pathRequestManager.RequestPath(transform.position, targetPosition, OnPathFound);
+        //     const float sqrMoveThreshold = PathUpdateMoveThreshold * PathUpdateMoveThreshold;
+        //     Vector3 targetPosOld = targetPosition;
+        //     while (true)
+        //     {
+        //         yield return new WaitForSeconds(MinPathUpdateTime);
+        //         if ((target.position - targetPosOld).sqrMagnitude > sqrMoveThreshold == false)
+        //         {
+        //             continue;
+        //         }
+        //
+        //         targetPosition = target.position;
+        //         _pathRequestManager.RequestPath(transform.position, targetPosition, OnPathFound);
+        //         targetPosOld = targetPosition;
+        //     }
+        // }
 
         private IEnumerator FollowPath()
         {
@@ -134,18 +129,14 @@ namespace TimberCottage.Pathfinding
             }
         }
 
+        private void OnDestroy()
+        {
+            _villagerBehaviour.StopBehaviour();
+        }
+
         // private void OnDrawGizmos()
         // {
         //     _path?.DrawWithGizmos();
         // }
-        
-        public IEnumerator BehaviourRoutine { get; }
-        public IEnumerator BehaviourCoroutine()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(1f);
-            }
-        }
     }
 }

@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3068185442625843255, guid: 824ab5f725bc21348bd7f5b29654a001, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3068657968126533341, guid: 824ab5f725bc21348bd7f5b29654a001, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3455581965498000079, guid: 824ab5f725bc21348bd7f5b29654a001, type: 3}
       propertyPath: m_Name
       value: VillagerBuilder
@@ -79,7 +87,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e125a572ffa1f54e8c9994724f7610d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   speed: 20
   turnSpeed: 3
   turnDistance: 5

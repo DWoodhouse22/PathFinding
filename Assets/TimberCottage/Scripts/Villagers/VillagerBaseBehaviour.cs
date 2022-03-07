@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.Versioning;
 using UnityEngine;
 
 namespace TimberCottage.Pathfinding
@@ -19,17 +20,6 @@ namespace TimberCottage.Pathfinding
             _spawnPosition = new Vector2(spawnPosition.x, spawnPosition.z);
         }
         
-        public IEnumerator BehaviourCoroutine()
-        {
-            while (true)
-            {
-                Vector2 randPosition = _spawnPosition + Random.insideUnitCircle * 10;
-                _pathRequestManager.RequestPath(transform.position, new Vector3(randPosition.x, 0f, randPosition.y),
-                    _villagerBase.OnPathFound);
-                yield return new WaitForSeconds(_moveDelayTime);
-            }
-        }
-
         public void StartBehaviour()
         {
             if (BehaviourRoutine != null)
@@ -39,6 +29,27 @@ namespace TimberCottage.Pathfinding
 
             BehaviourRoutine = BehaviourCoroutine();
             StartCoroutine(BehaviourRoutine);
+        }
+
+        public void StopBehaviour()
+        {
+            if (BehaviourRoutine == null)
+            {
+                return;
+            }
+            
+            StopCoroutine(BehaviourRoutine);
+        }
+        
+        public IEnumerator BehaviourCoroutine()
+        {
+            while (true)
+            {
+                Vector2 randPosition = _spawnPosition + Random.insideUnitCircle * 10;
+                _pathRequestManager.RequestPath(transform.position, new Vector3(randPosition.x, 0f, randPosition.y),
+                    _villagerBase.OnPathFound);
+                yield return new WaitForSeconds(_moveDelayTime);
+            }
         }
     }
 }

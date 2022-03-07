@@ -8,5 +8,6 @@ namespace TimberCottage.Pathfinding
         public IEnumerator BehaviourCoroutine();
 
         public void StartBehaviour();
+        public void StopBehaviour();
     }
 }
