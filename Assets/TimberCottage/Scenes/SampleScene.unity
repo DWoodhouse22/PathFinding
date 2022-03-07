@@ -186,6 +186,26 @@ PrefabInstance:
       propertyPath: _spawnedAtGameStart
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8332557793562063510, guid: c5b9e1a10555d994eac5446f7aa91960, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710653
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332557793562063510, guid: c5b9e1a10555d994eac5446f7aa91960, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332557793562063510, guid: c5b9e1a10555d994eac5446f7aa91960, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70710707
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332557793562063510, guid: c5b9e1a10555d994eac5446f7aa91960, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332557793562063510, guid: c5b9e1a10555d994eac5446f7aa91960, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5b9e1a10555d994eac5446f7aa91960, type: 3}
 --- !u!1 &181949486
