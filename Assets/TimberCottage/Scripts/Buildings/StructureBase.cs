@@ -12,22 +12,22 @@ namespace TimberCottage.Pathfinding
     {
         [SerializeField] private Transform bottomLeft;
         [SerializeField] private Transform structureMesh;
+        [SerializeField] private bool drawGizmos;
+        [SerializeField] private Vector2 extents;
         
+        public Vector2 Extents => extents;
         public Vector3 BottomLeft => bottomLeft.position;
-        public Vector3 Extents => _boxCollider.size;
         public event Action<bool> OnCollisionEvent;
 
         protected VillagerManager _villagerManager;
         
         private HashSet<Collider> _collisions;
         private bool _constructed;
-        private BoxCollider _boxCollider;
         private readonly float _rotationStep = 30f;
         
         private void Awake()
         {
             _collisions = new HashSet<Collider>();
-            _boxCollider = GetComponent<BoxCollider>();
             _villagerManager = FindObjectOfType<VillagerManager>();
         }
         
@@ -91,6 +91,17 @@ namespace TimberCottage.Pathfinding
             }
             
             structureMesh.transform.rotation *= Quaternion.Euler(0f, _rotationStep * direction, 0f); 
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (drawGizmos == false)
+            {
+                return;
+            }
+            
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireCube(transform.position, new Vector3(extents.x, 2f, extents.y));
         }
     }
 }
