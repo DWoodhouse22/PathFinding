@@ -21,10 +21,18 @@ namespace TimberCottage.Pathfinding
         private IEnumerator _followPathRoutine;
         private IEnumerator _updatePathRoutine;
         private VillagerManager.EVillagerType _villagerType;
+        private VillagerBaseBehaviour _villagerBehaviour;
         
         private void Awake()
         {
+            _villagerBehaviour = gameObject.AddComponent<VillagerBaseBehaviour>();
+            _villagerBehaviour.InitBehaviour(this, transform.position);
             _pathRequestManager = FindObjectOfType<PathRequestManager>();
+        }
+
+        private void Start()
+        {
+            _villagerBehaviour.StartBehaviour();
         }
 
         public void Init(VillagerManager.EVillagerType villagerType)
@@ -44,7 +52,7 @@ namespace TimberCottage.Pathfinding
             }
         }
 
-        private void OnPathFound(Vector3[] waypoints, bool success)
+        public void OnPathFound(Vector3[] waypoints, bool success)
         {
             if (!success)
             {
@@ -130,5 +138,14 @@ namespace TimberCottage.Pathfinding
         // {
         //     _path?.DrawWithGizmos();
         // }
+        
+        public IEnumerator BehaviourRoutine { get; }
+        public IEnumerator BehaviourCoroutine()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1f);
+            }
+        }
     }
 }

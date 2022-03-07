@@ -39,6 +39,8 @@ namespace TimberCottage.Pathfinding
             }
             
             _collisions.Add(other);
+            
+            // TODO: Minor improvement - only fire event if not previously colliding
             OnCollisionEvent?.Invoke(true);
         }
 
