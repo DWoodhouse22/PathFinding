@@ -55,7 +55,6 @@ namespace TimberCottage.Pathfinding
         {
             VillagerBase v = Instantiate(villagerBasePrefab, spawnLocation, rotation, villagerPoolTransform);
             v.name = $"BaseVillager{_totalSpawnedBaseVillagers}";
-            v.Init(EVillagerType.Base);
             _allVillagers.Add(v);
             _availableVillagers.Add(v);
             _totalSpawnedBaseVillagers++;
@@ -76,7 +75,6 @@ namespace TimberCottage.Pathfinding
             Transform villagerTransform = villager.transform;
             VillagerBuilder builder = Instantiate(villagerBuilderPrefab, villagerTransform.position, 
                 villagerTransform.rotation, builderPoolTransform);
-            builder.Init(EVillagerType.Builder);
             builder.name = $"Builder{_totalSpawnedBuilders}";
             _totalSpawnedBuilders++;
             _availableVillagers.Remove(villager);
@@ -103,7 +101,6 @@ namespace TimberCottage.Pathfinding
             Transform villagerTransform = villager.transform;
             VillagerCarrier carrier = Instantiate(villagerCarrierPrefab, villagerTransform.position, 
                 villagerTransform.rotation, carrierPoolTransform);
-            carrier.Init(EVillagerType.Carrier);
             carrier.name = $"Carrier{_totalSpawnedCarriers}";
             _totalSpawnedCarriers++;
             _availableVillagers.Remove(villager);

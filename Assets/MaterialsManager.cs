@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TimberCottage.Pathfinding
@@ -28,12 +29,12 @@ namespace TimberCottage.Pathfinding
             CutStone
         }
 
-        private HashSet<RawMaterial> _availableMaterials;
+        private List<RawMaterial> _availableMaterials;
         private Queue<MaterialRequest> _materialRequests;
 
         private void Awake()
         {
-            _availableMaterials = new HashSet<RawMaterial>();
+            _availableMaterials = new List<RawMaterial>();
             _materialRequests = new Queue<MaterialRequest>();
             
             InitMaterialsManager();
@@ -71,6 +72,18 @@ namespace TimberCottage.Pathfinding
         {
             MaterialRequest request = new MaterialRequest(materialType, onMaterialFound);
             _materialRequests.Enqueue(request);
+        }
+
+        public RawMaterial GetMaterial(EMaterialType materialType)
+        {
+            var mat = _availableMaterials.Find(m => m.MaterialType == materialType);
+            if (mat == null)
+            {
+                return null;
+            }
+            
+            _availableMaterials.Remove(mat);
+            return mat;
         }
     }
 }

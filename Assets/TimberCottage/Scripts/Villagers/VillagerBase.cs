@@ -21,14 +21,13 @@ namespace TimberCottage.Pathfinding
         private Path _path;
         private IEnumerator _followPathRoutine;
         private IEnumerator _updatePathRoutine;
-        private VillagerManager.EVillagerType _villagerType;
         private VillagerBaseBehaviour _villagerBaseBehaviour;
         private bool _isBusy;
         
         protected IVillagerBehaviour _villagerBehaviour;
 
         public bool IsBusy => _isBusy;
-        public VillagerManager.EVillagerType VillagerType => _villagerType;
+        public VillagerManager.EVillagerType VillagerType => villagerType;
         
         private void Awake()
         {
@@ -46,11 +45,6 @@ namespace TimberCottage.Pathfinding
         private void Start()
         {
             _villagerBehaviour.StartBehaviour();
-        }
-
-        public void Init(VillagerManager.EVillagerType villagerType)
-        {
-            _villagerType = villagerType;
         }
 
         public void OnPathFound(Vector3[] waypoints, bool success)

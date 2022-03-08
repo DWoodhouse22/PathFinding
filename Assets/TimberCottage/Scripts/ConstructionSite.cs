@@ -21,21 +21,37 @@ namespace TimberCottage.Pathfinding
 
         private StructureBase _structureToConstruct;
         private List<MaterialsManager.EMaterialType> _requiredMaterials;
-        private List<MaterialsManager.EMaterialType> _deliveredMaterials;
+        private List<RawMaterial> _deliveredMaterials;
         private List<MaterialsManager.EMaterialType> _consumedMaterials;
         private VillagerManager _villagerManager;
+        private MaterialsManager _materialsManager;
+
+        private int _totalNumRequiredMaterials
+        {
+            get
+            {
+                int requiredMaterials = 0;
+                foreach (ConstructionCost cost in constructionCosts)
+                {
+                    requiredMaterials += cost.NumMaterial;
+                }
+
+                return requiredMaterials;
+            }
+        }
         
         public ConstructionCost[] ConstructionCosts => constructionCosts;
 
         private void Awake()
         {
+            _materialsManager = FindObjectOfType<MaterialsManager>();
             _villagerManager = FindObjectOfType<VillagerManager>();
         }
 
         public void InitConstructionSite(StructureBase toConstruct)
         {
             _requiredMaterials = new List<MaterialsManager.EMaterialType>();
-            _deliveredMaterials = new List<MaterialsManager.EMaterialType>();
+            _deliveredMaterials = new List<RawMaterial>();
             _consumedMaterials = new List<MaterialsManager.EMaterialType>();
             _structureToConstruct = toConstruct;
 
@@ -60,6 +76,21 @@ namespace TimberCottage.Pathfinding
             }
             
             Debug.Log($"Assigned carrier {carrier.name}");
+            // Give carrier job to collect a material and return to the construction site
+
+            StartCoroutine(DebugReceiveConstructionMaterials(carrier, materialToGather));
+        }
+
+        private IEnumerator DebugReceiveConstructionMaterials(VillagerCarrier carrier, MaterialsManager.EMaterialType materialType)
+        {
+            yield return new WaitForSeconds(1f);
+            var mat = _materialsManager.GetMaterial(materialType);
+            if (mat == null)
+            {
+                Debug.LogError($"Cannot allocate {materialType}");
+                yield break;
+            }
+            ReceiveConstructionMaterial(mat, carrier);
         }
 
         public void OnConstructionComplete()
@@ -74,13 +105,17 @@ namespace TimberCottage.Pathfinding
         /// <param name="courier">Villager which delivered the material</param>
         public void ReceiveConstructionMaterial(RawMaterial material, VillagerCarrier courier)
         {
-            _deliveredMaterials.Add(material.MaterialType);
-            _requiredMaterials.Remove(material.MaterialType);
-            
             _villagerManager.ReturnVillagerToThePool(courier);
-            if (_deliveredMaterials.Count == constructionCosts.Length)
+            _deliveredMaterials.Add(material);
+            Debug.Log($"Received material {material.MaterialType}");
+            if (_deliveredMaterials.Count == _totalNumRequiredMaterials)
             {
+                Debug.Log("All materials received, starting construction");
                 // start construction (builders start hammering etc...)
+                foreach (RawMaterial mat in _deliveredMaterials)
+                {
+                    ConsumeConstructionMaterial(mat);
+                }
             }
         }
 
@@ -93,7 +128,7 @@ namespace TimberCottage.Pathfinding
             _consumedMaterials.Add(material.MaterialType);
 
             // consumed all required materials...
-            if (_consumedMaterials.Count == constructionCosts.Length)
+            if (_consumedMaterials.Count == _totalNumRequiredMaterials)
             {
                 _structureToConstruct.OnConstructed();
             }
