@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 namespace TimberCottage.Pathfinding
@@ -171,24 +172,46 @@ namespace TimberCottage.Pathfinding
                 return;
             }
 
-            VillagerRequest request = _villagerRequests.Dequeue();
+            VillagerRequest request = _villagerRequests.Peek();
             switch (request.VillagerType)
             {
                 case EVillagerType.Carrier:
-                    VillagerCarrier carrier = _carriers.Find(x => x.IsBusy == false);
-                    if (carrier != null)
-                    {
-                        _carriers.Remove(carrier);
-                        request.Callback(carrier);
-                    }
-                    else
-                    {
-                        _villagerRequests.Enqueue(request);
-                    }
+                    RequestCarrier(request);
+                    break;
+                case EVillagerType.Builder:
                     break;
                 case EVillagerType.Base:
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void RequestCarrier(VillagerRequest request)
+        {
+            VillagerCarrier carrier = _carriers.Find(x => x.IsBusy == false);
+            if (carrier == null)
+            {
+                return;
+            }
+            
+            _carriers.Remove(carrier);
+            request.Callback(carrier);
+            carrier.AssignJob();
+            _villagerRequests.Dequeue();
+        }
+
+        public void ReturnVillagerToThePool(VillagerBase villager)
+        {
+            switch (villager.VillagerType)
+            {
+                case EVillagerType.Carrier:
+                    villager.UnAssignJob();
+                    _carriers.Add(villager as VillagerCarrier);
+                    break;
                 case EVillagerType.Builder:
+                    villager.UnAssignJob();
+                    _builders.Add(villager as VillagerBuilder);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

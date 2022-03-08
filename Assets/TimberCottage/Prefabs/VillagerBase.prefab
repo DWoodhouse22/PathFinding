@@ -48,6 +48,7 @@ MonoBehaviour:
   turnSpeed: 3
   turnDistance: 5
   stoppingDistance: 10
+  villagerType: 1
 --- !u!1001 &3067616006300285895
 PrefabInstance:
   m_ObjectHideFlags: 0

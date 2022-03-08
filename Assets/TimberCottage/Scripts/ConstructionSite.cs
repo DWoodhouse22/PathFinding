@@ -60,7 +60,6 @@ namespace TimberCottage.Pathfinding
             }
             
             Debug.Log($"Assigned carrier {carrier.name}");
-            carrier.AssignJob();
         }
 
         public void OnConstructionComplete()
@@ -78,7 +77,7 @@ namespace TimberCottage.Pathfinding
             _deliveredMaterials.Add(material.MaterialType);
             _requiredMaterials.Remove(material.MaterialType);
             
-            courier.UnAssignJob();
+            _villagerManager.ReturnVillagerToThePool(courier);
             if (_deliveredMaterials.Count == constructionCosts.Length)
             {
                 // start construction (builders start hammering etc...)

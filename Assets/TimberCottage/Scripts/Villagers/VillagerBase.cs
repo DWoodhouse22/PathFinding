@@ -13,7 +13,8 @@ namespace TimberCottage.Pathfinding
         [SerializeField] private float turnSpeed = 3;
         [SerializeField] private float turnDistance = 5;
         [SerializeField] private float stoppingDistance = 10;
-        
+        [SerializeField] private VillagerManager.EVillagerType villagerType;
+
         private PathRequestManager _pathRequestManager;
         private const float MinPathUpdateTime = 0.2f;
         private const float PathUpdateMoveThreshold = 0.5f;
@@ -27,6 +28,7 @@ namespace TimberCottage.Pathfinding
         protected IVillagerBehaviour _villagerBehaviour;
 
         public bool IsBusy => _isBusy;
+        public VillagerManager.EVillagerType VillagerType => _villagerType;
         
         private void Awake()
         {
