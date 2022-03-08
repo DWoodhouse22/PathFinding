@@ -158,6 +158,7 @@ namespace TimberCottage.Pathfinding
         /// <param name="callback">Callback fired when villager is available</param>
         public void RequestVillager(EVillagerType villagerType, Action<VillagerBase> callback)
         {
+            Debug.Log($"Requesting {villagerType}");
             VillagerRequest request = new VillagerRequest(villagerType, callback);
             _villagerRequests.Enqueue(request);
         }
@@ -170,17 +171,27 @@ namespace TimberCottage.Pathfinding
                 return;
             }
 
-            var request = _villagerRequests.Dequeue();
+            VillagerRequest request = _villagerRequests.Dequeue();
             switch (request.VillagerType)
             {
                 case EVillagerType.Carrier:
-                    var carrier = _carriers.Find(x => x.IsBusy == false);
+                    VillagerCarrier carrier = _carriers.Find(x => x.IsBusy == false);
                     if (carrier != null)
                     {
                         _carriers.Remove(carrier);
                         request.Callback(carrier);
                     }
+                    else
+                    {
+                        _villagerRequests.Enqueue(request);
+                    }
                     break;
+                case EVillagerType.Base:
+                    break;
+                case EVillagerType.Builder:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
