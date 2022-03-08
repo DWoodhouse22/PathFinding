@@ -10,6 +10,9 @@ namespace TimberCottage.Pathfinding
     {
         [SerializeField] private MaterialsManager.EMaterialType material;
         [SerializeField] private int numMaterial;
+
+        public MaterialsManager.EMaterialType Material => material;
+        public int NumMaterial => numMaterial;
     }
     
     public class ConstructionSite : MonoBehaviour
@@ -20,8 +23,14 @@ namespace TimberCottage.Pathfinding
         private List<MaterialsManager.EMaterialType> _requiredMaterials;
         private List<MaterialsManager.EMaterialType> _deliveredMaterials;
         private List<MaterialsManager.EMaterialType> _consumedMaterials;
+        private VillagerManager _villagerManager;
         
         public ConstructionCost[] ConstructionCosts => constructionCosts;
+
+        private void Awake()
+        {
+            _villagerManager = FindObjectOfType<VillagerManager>();
+        }
 
         public void InitConstructionSite(StructureBase toConstruct)
         {
@@ -29,6 +38,29 @@ namespace TimberCottage.Pathfinding
             _deliveredMaterials = new List<MaterialsManager.EMaterialType>();
             _consumedMaterials = new List<MaterialsManager.EMaterialType>();
             _structureToConstruct = toConstruct;
+
+            foreach (ConstructionCost cost in constructionCosts)
+            {
+                MaterialsManager.EMaterialType materialType = cost.Material;
+                for (int i = 0; i < cost.NumMaterial; i++)
+                {
+                    _villagerManager.RequestVillager(VillagerManager.EVillagerType.Carrier,
+                        villager => { OnCarrierAssigned(villager, materialType); });
+                }
+            }
+        }
+
+        private void OnCarrierAssigned(VillagerBase villager, MaterialsManager.EMaterialType materialToGather)
+        {
+            VillagerCarrier carrier = villager as VillagerCarrier;
+            if (carrier == null)
+            {
+                Debug.LogError($"Cannot convert {villager.name} to a carrier");
+                return;
+            }
+            
+            Debug.Log($"Assigned carrier {carrier.name}");
+            carrier.AssignJob();
         }
 
         public void OnConstructionComplete()
@@ -40,10 +72,17 @@ namespace TimberCottage.Pathfinding
         /// Call when a carrier delivers a material
         /// </summary>
         /// <param name="material">Material to be delivered</param>
-        public void ReceiveConstructionMaterial(RawMaterial material)
+        /// <param name="courier">Villager which delivered the material</param>
+        public void ReceiveConstructionMaterial(RawMaterial material, VillagerCarrier courier)
         {
             _deliveredMaterials.Add(material.MaterialType);
             _requiredMaterials.Remove(material.MaterialType);
+            
+            courier.UnAssignJob();
+            if (_deliveredMaterials.Count == constructionCosts.Length)
+            {
+                // start construction (builders start hammering etc...)
+            }
         }
 
         /// <summary>

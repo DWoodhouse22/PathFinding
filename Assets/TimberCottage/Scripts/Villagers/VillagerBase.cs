@@ -22,7 +22,11 @@ namespace TimberCottage.Pathfinding
         private IEnumerator _updatePathRoutine;
         private VillagerManager.EVillagerType _villagerType;
         private VillagerBaseBehaviour _villagerBaseBehaviour;
+        private bool _isBusy;
+        
         protected IVillagerBehaviour _villagerBehaviour;
+
+        public bool IsBusy => _isBusy;
         
         private void Awake()
         {
@@ -62,6 +66,16 @@ namespace TimberCottage.Pathfinding
             _path = new Path(waypoints, transform.position, turnDistance, stoppingDistance);
             _followPathRoutine = FollowPath();
             StartCoroutine(_followPathRoutine);
+        }
+
+        public void AssignJob()
+        {
+            _isBusy = true;
+        }
+
+        public void UnAssignJob()
+        {
+            _isBusy = false;
         }
 
         // private IEnumerator UpdatePath()

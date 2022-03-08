@@ -42,6 +42,7 @@ namespace TimberCottage.Pathfinding
             _availableVillagers = new List<VillagerBase>();
             _builders = new List<VillagerBuilder>();
             _carriers = new List<VillagerCarrier>();
+            _villagerRequests = new Queue<VillagerRequest>();
         }
 
         /// <summary>
@@ -147,6 +148,52 @@ namespace TimberCottage.Pathfinding
             Destroy(carrier.gameObject);
 
             DebugPrintVillagerCounts();
+        }
+
+        private Queue<VillagerRequest> _villagerRequests;
+        /// <summary>
+        /// Request a villager for a job
+        /// </summary>
+        /// <param name="villagerType">Type of villager requested</param>
+        /// <param name="callback">Callback fired when villager is available</param>
+        public void RequestVillager(EVillagerType villagerType, Action<VillagerBase> callback)
+        {
+            VillagerRequest request = new VillagerRequest(villagerType, callback);
+            _villagerRequests.Enqueue(request);
+        }
+
+        private void Update()
+        {
+            // This is fine in update for now.. should probably be a coroutine?
+            if (_villagerRequests.Count == 0)
+            {
+                return;
+            }
+
+            var request = _villagerRequests.Dequeue();
+            switch (request.VillagerType)
+            {
+                case EVillagerType.Carrier:
+                    var carrier = _carriers.Find(x => x.IsBusy == false);
+                    if (carrier != null)
+                    {
+                        _carriers.Remove(carrier);
+                        request.Callback(carrier);
+                    }
+                    break;
+            }
+        }
+
+        private readonly struct VillagerRequest
+        {
+            public EVillagerType VillagerType { get; }
+            public Action<VillagerBase> Callback { get; }
+
+            public VillagerRequest(EVillagerType villagerType, Action<VillagerBase> callback)
+            {
+                VillagerType = villagerType;
+                Callback = callback;
+            }
         }
 
         private void DebugPrintVillagerCounts()
