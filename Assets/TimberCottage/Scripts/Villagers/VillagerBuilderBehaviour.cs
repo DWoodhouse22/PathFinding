@@ -13,12 +13,12 @@ namespace TimberCottage.Pathfinding
 
         public void StartBehaviour()
         {
-            Debug.Log("Builder behaviour not defined");
+
         }
 
         public void StopBehaviour()
         {
-            Debug.Log("Builder behaviour not defined");
+
         }
     }
 }

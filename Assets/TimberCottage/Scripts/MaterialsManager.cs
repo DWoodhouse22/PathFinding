@@ -74,16 +74,53 @@ namespace TimberCottage.Pathfinding
             _materialRequests.Enqueue(request);
         }
 
-        public RawMaterial GetMaterial(EMaterialType materialType)
+        private void Update()
         {
-            var mat = _availableMaterials.Find(m => m.MaterialType == materialType);
+            // This is fine in update for now.. should probably be a coroutine?
+            if (_materialRequests.Count == 0)
+            {
+                return;
+            }
+
+            MaterialRequest request = _materialRequests.Peek();
+            switch (request.MaterialType)
+            {
+                case EMaterialType.Plank:
+                    RequestMaterial<Plank>(request);
+                    break;
+                case EMaterialType.Log:
+                    RequestMaterial<Log>(request);
+                    break;
+                case EMaterialType.Rock:
+                    RequestMaterial<Rock>(request);
+                    break;
+                case EMaterialType.CutStone:
+                    RequestMaterial<CutStone>(request);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void RequestMaterial<T>(MaterialRequest request) where T : RawMaterial
+        {
+            Debug.Log($"Requesting {request.MaterialType}...");
+            RawMaterial mat = _availableMaterials.Find(m => m.MaterialType == request.MaterialType);
             if (mat == null)
             {
-                return null;
+                return;
             }
-            
-            _availableMaterials.Remove(mat);
-            return mat;
+
+            T material = mat as T;
+            if (material == null)
+            {
+                Debug.LogError("material is null");
+                return;
+            }
+
+            _availableMaterials.Remove(material);
+            _materialRequests.Dequeue();
+            request.OnMaterialFound(material);
         }
     }
 }

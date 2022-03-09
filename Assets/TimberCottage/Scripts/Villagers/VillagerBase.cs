@@ -29,7 +29,7 @@ namespace TimberCottage.Pathfinding
         public bool IsBusy => _isBusy;
         public VillagerManager.EVillagerType VillagerType => villagerType;
         
-        private void Awake()
+        protected virtual void Awake()
         {
             InitBehaviour();
             _pathRequestManager = FindObjectOfType<PathRequestManager>();

@@ -229,8 +229,8 @@ namespace TimberCottage.Pathfinding
 
         private void DebugPrintVillagerCounts()
         {
-            Debug.Log($"available:{_availableVillagers.Count}\tBuilders:{_builders.Count}" +
-                      $"\tCarriers:{_carriers.Count}\tAll{_allVillagers.Count}");
+            // Debug.Log($"available:{_availableVillagers.Count}\tBuilders:{_builders.Count}" +
+            //           $"\tCarriers:{_carriers.Count}\tAll{_allVillagers.Count}");
         }
     }
 }

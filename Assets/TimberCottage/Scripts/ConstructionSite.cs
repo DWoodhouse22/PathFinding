@@ -68,22 +68,7 @@ namespace TimberCottage.Pathfinding
                 return;
             }
             
-            Debug.Log($"Assigned carrier {carrier.name}");
-            // Give carrier job to collect a material and return to the construction site
-
-            StartCoroutine(DebugReceiveConstructionMaterials(carrier, materialToGather));
-        }
-
-        private IEnumerator DebugReceiveConstructionMaterials(VillagerCarrier carrier, MaterialsManager.EMaterialType materialType)
-        {
-            yield return new WaitForSeconds(1f);
-            var mat = _materialsManager.GetMaterial(materialType);
-            if (mat == null)
-            {
-                Debug.LogError($"Cannot allocate {materialType}");
-                yield break;
-            }
-            ReceiveConstructionMaterial(mat, carrier);
+            carrier.FetchMaterial(this, materialToGather);
         }
 
         public void OnConstructionComplete()
@@ -100,7 +85,7 @@ namespace TimberCottage.Pathfinding
         {
             _villagerManager.ReturnVillagerToThePool(courier);
             _deliveredMaterials.Add(material);
-            Debug.Log($"Received material {material.MaterialType}");
+
             if (_deliveredMaterials.Count == _totalNumRequiredMaterials)
             {
                 Debug.Log("All materials received, starting construction");

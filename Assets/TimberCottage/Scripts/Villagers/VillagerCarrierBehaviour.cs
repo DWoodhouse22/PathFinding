@@ -13,12 +13,12 @@ namespace TimberCottage.Pathfinding
 
         public void StartBehaviour()
         {
-            Debug.Log("Carrier behaviour not defined");
+
         }
 
         public void StopBehaviour()
         {
-            Debug.Log("Carrier behaviour not defined");
+
         }
     }
 }
