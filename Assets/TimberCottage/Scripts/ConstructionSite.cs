@@ -26,26 +26,19 @@ namespace TimberCottage.Pathfinding
         private VillagerManager _villagerManager;
         private MaterialsManager _materialsManager;
 
-        private int _totalNumRequiredMaterials
-        {
-            get
-            {
-                int requiredMaterials = 0;
-                foreach (ConstructionCost cost in constructionCosts)
-                {
-                    requiredMaterials += cost.NumMaterial;
-                }
+        private int _totalNumRequiredMaterials;
 
-                return requiredMaterials;
-            }
-        }
-        
         public ConstructionCost[] ConstructionCosts => constructionCosts;
 
         private void Awake()
         {
             _materialsManager = FindObjectOfType<MaterialsManager>();
             _villagerManager = FindObjectOfType<VillagerManager>();
+            
+            foreach (ConstructionCost cost in constructionCosts)
+            {
+                _totalNumRequiredMaterials += cost.NumMaterial;
+            }
         }
 
         public void InitConstructionSite(StructureBase toConstruct)
@@ -112,6 +105,7 @@ namespace TimberCottage.Pathfinding
             {
                 Debug.Log("All materials received, starting construction");
                 // start construction (builders start hammering etc...)
+                // automatically complete construction for now
                 foreach (RawMaterial mat in _deliveredMaterials)
                 {
                     ConsumeConstructionMaterial(mat);
@@ -127,20 +121,10 @@ namespace TimberCottage.Pathfinding
         {
             _consumedMaterials.Add(material.MaterialType);
 
-            // consumed all required materials...
             if (_consumedMaterials.Count == _totalNumRequiredMaterials)
             {
-                _structureToConstruct.OnConstructed();
+                OnConstructionComplete();
             }
-        }
-
-        /// <summary>
-        /// Automatically handle the construction
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator DebugDoConstruction()
-        {
-            yield return null;
         }
     }
 }
