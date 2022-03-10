@@ -18,21 +18,20 @@ namespace TimberCottage.Pathfinding
     public class ConstructionSite : MonoBehaviour
     {
         [SerializeField] private ConstructionCost[] constructionCosts;
+        [SerializeField] private Transform _materialDropOffPoint;
 
         private StructureBase _structureToConstruct;
-        private List<MaterialsManager.EMaterialType> _requiredMaterials;
         private List<RawMaterial> _deliveredMaterials;
         private List<MaterialsManager.EMaterialType> _consumedMaterials;
         private VillagerManager _villagerManager;
-        private MaterialsManager _materialsManager;
 
         private int _totalNumRequiredMaterials;
 
         public ConstructionCost[] ConstructionCosts => constructionCosts;
+        public Vector3 MaterialDropOffPoint => _materialDropOffPoint.position;
 
         private void Awake()
         {
-            _materialsManager = FindObjectOfType<MaterialsManager>();
             _villagerManager = FindObjectOfType<VillagerManager>();
             
             foreach (ConstructionCost cost in constructionCosts)
@@ -43,7 +42,6 @@ namespace TimberCottage.Pathfinding
 
         public void InitConstructionSite(StructureBase toConstruct)
         {
-            _requiredMaterials = new List<MaterialsManager.EMaterialType>();
             _deliveredMaterials = new List<RawMaterial>();
             _consumedMaterials = new List<MaterialsManager.EMaterialType>();
             _structureToConstruct = toConstruct;
@@ -71,7 +69,7 @@ namespace TimberCottage.Pathfinding
             carrier.FetchMaterial(this, materialToGather);
         }
 
-        public void OnConstructionComplete()
+        private void OnConstructionComplete()
         {
             _structureToConstruct.OnConstructed();
         }

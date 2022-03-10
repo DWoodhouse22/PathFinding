@@ -47,7 +47,7 @@ MonoBehaviour:
   speed: 5
   turnSpeed: 3
   turnDistance: 5
-  stoppingDistance: 10
+  stoppingDistance: 1
   villagerType: 1
 --- !u!1001 &3067616006300285895
 PrefabInstance:

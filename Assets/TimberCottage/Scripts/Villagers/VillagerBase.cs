@@ -15,7 +15,7 @@ namespace TimberCottage.Pathfinding
         [SerializeField] private float stoppingDistance = 10;
         [SerializeField] private VillagerManager.EVillagerType villagerType;
 
-        private PathRequestManager _pathRequestManager;
+        protected PathRequestManager _pathRequestManager;
         private const float MinPathUpdateTime = 0.2f;
         private const float PathUpdateMoveThreshold = 0.5f;
         private Path _path;
@@ -47,7 +47,7 @@ namespace TimberCottage.Pathfinding
             _villagerBehaviour.StartBehaviour();
         }
 
-        public void OnPathFound(Vector3[] waypoints, bool success)
+        public void OnPathFound(Vector3[] waypoints, bool success, Action onFinishedPath = null)
         {
             if (!success)
             {
@@ -60,7 +60,7 @@ namespace TimberCottage.Pathfinding
             }
 
             _path = new Path(waypoints, transform.position, turnDistance, stoppingDistance);
-            _followPathRoutine = FollowPath();
+            _followPathRoutine = FollowPath(onFinishedPath);
             StartCoroutine(_followPathRoutine);
         }
 
@@ -94,7 +94,7 @@ namespace TimberCottage.Pathfinding
         //     }
         // }
 
-        private IEnumerator FollowPath()
+        private IEnumerator FollowPath(Action onFinishedPath = null)
         {
             bool followingPath = true;
             int pathIndex = 0;
@@ -137,6 +137,8 @@ namespace TimberCottage.Pathfinding
                 
                 yield return null;
             }
+            
+            onFinishedPath?.Invoke();
         }
 
         private void OnDestroy()

@@ -47,7 +47,10 @@ namespace TimberCottage.Pathfinding
             {
                 Vector2 randPosition = _spawnPosition + Random.insideUnitCircle * 10;
                 _pathRequestManager.RequestPath(transform.position, new Vector3(randPosition.x, 0f, randPosition.y),
-                    _villagerBase.OnPathFound);
+                    (waypoints, success) =>
+                    {
+                        _villagerBase.OnPathFound(waypoints, success);
+                    });
                 yield return new WaitForSeconds(_moveDelayTime);
             }
         }
