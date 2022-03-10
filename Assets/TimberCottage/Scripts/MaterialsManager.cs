@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace TimberCottage.Pathfinding
 {
+    /// <summary>
+    /// Class to the global pool of materials
+    /// </summary>
     public class MaterialsManager : MonoBehaviour
     {
         private readonly struct MaterialRequest
@@ -102,6 +105,11 @@ namespace TimberCottage.Pathfinding
             }
         }
 
+        /// <summary>
+        /// Processes a MaterialRequest
+        /// </summary>
+        /// <param name="request">struct containing data for this request</param>
+        /// <typeparam name="T">Type of material to request</typeparam>
         private void RequestMaterial<T>(MaterialRequest request) where T : RawMaterial
         {
             Debug.Log($"Requesting {request.MaterialType}...");

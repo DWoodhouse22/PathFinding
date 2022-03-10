@@ -32,6 +32,10 @@ namespace TimberCottage.Pathfinding
             };
         }
 
+        /// <summary>
+        /// Start placing structure in the world
+        /// </summary>
+        /// <param name="structureType">Type of structure which is being placed</param>
         public void StartPlacingStructure(EStructureType structureType)
         {
             if (_structureTypeToGameObject.TryGetValue(structureType, out StructureBase structure) == false)

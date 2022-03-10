@@ -40,6 +40,10 @@ namespace TimberCottage.Pathfinding
             }
         }
 
+        /// <summary>
+        /// Initialise the construction site and kick off assigning villagers to carrier / builder roles
+        /// </summary>
+        /// <param name="toConstruct">Structure which will be constructed</param>
         public void InitConstructionSite(StructureBase toConstruct)
         {
             _deliveredMaterials = new List<RawMaterial>();
