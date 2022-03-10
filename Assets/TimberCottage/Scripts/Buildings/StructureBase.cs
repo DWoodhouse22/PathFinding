@@ -15,10 +15,7 @@ namespace TimberCottage.Pathfinding
         [SerializeField] private Transform meshRoot;
         [SerializeField] private Transform constructedMeshRoot;
         [SerializeField] private Transform underConstructionMeshRoot;
-        [SerializeField] private bool drawGizmos;
-        [SerializeField] private Vector2 extents;
-        
-        public Vector2 Extents => extents;
+
         public Vector3 BottomLeft => bottomLeft.position;
         public event Action<bool> OnCollisionEvent;
         
@@ -43,6 +40,7 @@ namespace TimberCottage.Pathfinding
             if (spawnedAtGameStart)
             {
                 OnConstructed();
+                _placedInWorld = true;
             }
         }
 
@@ -124,17 +122,6 @@ namespace TimberCottage.Pathfinding
         {
             underConstructionMeshRoot.gameObject.SetActive(false);
             constructedMeshRoot.gameObject.SetActive(true);
-        }
-
-        private void OnDrawGizmos()
-        {
-            if (drawGizmos == false)
-            {
-                return;
-            }
-            
-            Gizmos.color = Color.white;
-            Gizmos.DrawWireCube(transform.position, new Vector3(extents.x, 2f, extents.y));
         }
     }
 }
