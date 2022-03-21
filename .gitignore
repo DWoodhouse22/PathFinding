@@ -68,6 +68,14 @@ ExportedObj/
 **/.idea/**/contentModel.xml
 **/.idea/**/modules.xml
 
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
@@ -91,3 +99,6 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Mac OS
+.DS_Store
