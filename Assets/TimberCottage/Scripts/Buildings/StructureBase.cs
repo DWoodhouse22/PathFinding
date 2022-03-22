@@ -11,12 +11,10 @@ namespace TimberCottage.Pathfinding
     public class StructureBase : MonoBehaviour
     {
         [SerializeField] private bool spawnedAtGameStart;
-        [SerializeField] private Transform bottomLeft;
         [SerializeField] private Transform meshRoot;
         [SerializeField] private Transform constructedMeshRoot;
         [SerializeField] private Transform underConstructionMeshRoot;
 
-        public Vector3 BottomLeft => bottomLeft.position;
         public event Action<bool> OnCollisionEvent;
         
         protected VillagerManager _villagerManager;

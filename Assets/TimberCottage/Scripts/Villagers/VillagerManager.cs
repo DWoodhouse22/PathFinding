@@ -169,6 +169,7 @@ namespace TimberCottage.Pathfinding
                 case EVillagerType.Builder:
                     break;
                 case EVillagerType.Base:
+                    RequestVillagerBase(request);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -186,6 +187,19 @@ namespace TimberCottage.Pathfinding
             _carriers.Remove(carrier);
             request.Callback(carrier);
             carrier.AssignJob();
+            _villagerRequests.Dequeue();
+        }
+
+        private void RequestVillagerBase(VillagerRequest request)
+        {
+            VillagerBase villager = _availableVillagers.First();
+            if (villager == null)
+            {
+                return;
+            }
+
+            _availableVillagers.Remove(villager);
+            request.Callback(villager);
             _villagerRequests.Dequeue();
         }
 
