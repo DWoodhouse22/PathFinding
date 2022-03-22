@@ -20,7 +20,6 @@ namespace TimberCottage.Pathfinding
         [SerializeField] private Transform builderPoolTransform;
         [SerializeField] private Transform carrierPoolTransform;
         
-        private List<VillagerBase> _allVillagers;
         private List<VillagerBase> _availableVillagers;
         private List<VillagerBuilder> _builders;
         private List<VillagerCarrier> _carriers;
@@ -39,7 +38,6 @@ namespace TimberCottage.Pathfinding
         
         private void Awake()
         {
-            _allVillagers = new List<VillagerBase>();
             _availableVillagers = new List<VillagerBase>();
             _builders = new List<VillagerBuilder>();
             _carriers = new List<VillagerCarrier>();
@@ -55,7 +53,6 @@ namespace TimberCottage.Pathfinding
         {
             VillagerBase v = Instantiate(villagerBasePrefab, spawnLocation, rotation, villagerPoolTransform);
             v.name = $"BaseVillager{_totalSpawnedBaseVillagers}";
-            _allVillagers.Add(v);
             _availableVillagers.Add(v);
             _totalSpawnedBaseVillagers++;
         }
@@ -78,8 +75,6 @@ namespace TimberCottage.Pathfinding
             builder.name = $"Builder{_totalSpawnedBuilders}";
             _totalSpawnedBuilders++;
             _availableVillagers.Remove(villager);
-            _allVillagers.Remove(villager);
-            _allVillagers.Add(builder);
             _builders.Add(builder);
             Destroy(villager.gameObject);
 
@@ -104,8 +99,6 @@ namespace TimberCottage.Pathfinding
             carrier.name = $"Carrier{_totalSpawnedCarriers}";
             _totalSpawnedCarriers++;
             _availableVillagers.Remove(villager);
-            _allVillagers.Remove(villager);
-            _allVillagers.Add(carrier);
             _carriers.Add(carrier);
             Destroy(villager.gameObject);
 
@@ -122,7 +115,6 @@ namespace TimberCottage.Pathfinding
 
             VillagerBuilder builder = _builders.First();
             _builders.Remove(builder);
-            _allVillagers.Remove(builder);
             Transform builderTransform = builder.transform;
             SpawnVillager(builderTransform.position, builderTransform.rotation);
             Destroy(builder.gameObject);
@@ -140,7 +132,6 @@ namespace TimberCottage.Pathfinding
 
             VillagerCarrier carrier = _carriers.First();
             _carriers.Remove(carrier);
-            _allVillagers.Remove(carrier);
             Transform carrierTransform = carrier.transform;
             SpawnVillager(carrierTransform.position, carrierTransform.rotation);
             Destroy(carrier.gameObject);

@@ -5,6 +5,10 @@ using UnityEngine;
 
 namespace TimberCottage.Pathfinding
 {
+    /// <summary>
+    /// Carrier type of villager
+    /// Note - Most of the logic in here should eventually be moved to the relevant behaviour script
+    /// </summary>
     public class VillagerCarrier : VillagerBase
     {
         private VillagerCarrierBehaviour _villagerCarrierBehaviour;
@@ -39,10 +43,12 @@ namespace TimberCottage.Pathfinding
 
         private void OnFoundPathToMaterial(Vector3[] pathWaypoints, bool success)
         {
-            OnPathFound(pathWaypoints, success, () =>
-            {
-                _pathRequestManager.RequestPath(transform.position, _assignedConstructionSite.MaterialDropOffPoint, OnFoundPathToConstructionSite);
-            });
+            OnPathFound(pathWaypoints, success, OnReachedMaterial);
+        }
+
+        private void OnReachedMaterial()
+        {
+            _pathRequestManager.RequestPath(transform.position, _assignedConstructionSite.MaterialDropOffPoint, OnFoundPathToConstructionSite);
         }
 
         private void OnFoundPathToConstructionSite(Vector3[] pathWayPoints, bool success)

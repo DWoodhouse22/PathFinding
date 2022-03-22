@@ -53,8 +53,6 @@ namespace TimberCottage.Pathfinding
             {
                 _availableMaterials.Add(mat);
             }
-            
-            Debug.Log(_availableMaterials.Count);
         }
 
         /// <summary>
