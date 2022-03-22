@@ -93,9 +93,8 @@ namespace TimberCottage.Pathfinding
 
             toSpawn.OnCollisionEvent -= OnStructureCollisionEvent;
             toSpawn.OnPlaced();
-
-            Vector2Int maxSize = new Vector2Int(pathFindingGrid.GridSizeX, pathFindingGrid.GridSizeY);
-            pathFindingGrid.CalculateNodes(Vector2Int.zero, maxSize);
+            
+            pathFindingGrid.CalculateNodes();
             _placeStructureRoutine = null;
         }
 

@@ -49,6 +49,11 @@ namespace TimberCottage.Pathfinding
         private void CreateGrid()
         {
             _grid = new Node[_gridSizeX, _gridSizeY];
+            CalculateNodes();
+        }
+
+        public void CalculateNodes()
+        {
             CalculateNodes(Vector2Int.zero, new Vector2Int(_gridSizeX, _gridSizeY));
         }
 
