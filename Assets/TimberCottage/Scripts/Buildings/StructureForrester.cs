@@ -8,6 +8,8 @@ namespace TimberCottage.Pathfinding
     {
         [SerializeField] private TreePlantingZone plantingZone;
 
+        private VillagerForrester _assignedVillager;
+
         public override void OnConstructed()
         {
             _villagerManager.RequestVillager(VillagerManager.EVillagerType.Base, OnFoundVillager);
@@ -15,7 +17,8 @@ namespace TimberCottage.Pathfinding
 
         private void OnFoundVillager(VillagerBase villager)
         {
-            Debug.Log($"Allocated {villager.name}");
+            VillagerForrester forrester = _villagerManager.ConvertVillagerTo<VillagerForrester>(villager, VillagerManager.EVillagerType.Forrester);
+            forrester.transform.parent = transform;
         }
     }
 }

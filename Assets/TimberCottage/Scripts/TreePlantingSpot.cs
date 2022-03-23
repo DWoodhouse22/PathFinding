@@ -7,6 +7,9 @@ using Random = UnityEngine.Random;
 
 namespace TimberCottage.Pathfinding
 {
+    /// <summary>
+    /// An individual spot within a zone for planting trees
+    /// </summary>
     public class TreePlantingSpot : MonoBehaviour
     {
         [SerializeField] private float radius;

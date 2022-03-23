@@ -15,6 +15,7 @@ namespace TimberCottage.Pathfinding
         [SerializeField] private VillagerBase villagerBasePrefab;
         [SerializeField] private VillagerBuilder villagerBuilderPrefab;
         [SerializeField] private VillagerCarrier villagerCarrierPrefab;
+        [SerializeField] private VillagerForrester villagerForresterPrefab;
 
         [SerializeField] private Transform villagerPoolTransform;
         [SerializeField] private Transform builderPoolTransform;
@@ -27,17 +28,28 @@ namespace TimberCottage.Pathfinding
         private int _totalSpawnedBaseVillagers;
         private int _totalSpawnedBuilders;
         private int _totalSpawnedCarriers;
-        
+
+        private Dictionary<EVillagerType, VillagerBase> _villagerTypeToPrefab;
+
         public enum EVillagerType
         {
             Undefined = 0,
             Base,
             Builder,
-            Carrier
+            Carrier,
+            Forrester
         }
         
         private void Awake()
         {
+            _villagerTypeToPrefab = new Dictionary<EVillagerType, VillagerBase>
+            {
+                {EVillagerType.Base, villagerBasePrefab},
+                {EVillagerType.Builder, villagerBuilderPrefab},
+                {EVillagerType.Carrier, villagerCarrierPrefab},
+                {EVillagerType.Forrester, villagerForresterPrefab}
+            };
+            
             _availableVillagers = new List<VillagerBase>();
             _builders = new List<VillagerBuilder>();
             _carriers = new List<VillagerCarrier>();
@@ -55,6 +67,39 @@ namespace TimberCottage.Pathfinding
             v.name = $"BaseVillager{_totalSpawnedBaseVillagers}";
             _availableVillagers.Add(v);
             _totalSpawnedBaseVillagers++;
+        }
+
+        /// <summary>
+        /// Convert provided villager to a new type
+        /// NOTE: This function assumes you have found a villager via a VillagerRequest
+        /// </summary>
+        /// <param name="toConvert">Villager to convert</param>
+        /// <param name="villagerType">Type of villager to create</param>
+        /// <typeparam name="T">Typeof VillagerBase</typeparam>
+        /// <returns>Converted villager</returns>
+        public T ConvertVillagerTo<T>(VillagerBase toConvert, EVillagerType villagerType) where T: VillagerBase
+        {
+            if (toConvert.VillagerType == villagerType)
+            {
+                return (T)toConvert;
+            }
+
+            if (_villagerTypeToPrefab.TryGetValue(villagerType, out VillagerBase prefab) == false)
+            {
+                Debug.LogError($"Cannot convert to type {villagerType}");
+                return null;
+            }
+
+            Transform villagerTransform = toConvert.transform;
+            T newVillager = Instantiate(prefab, villagerTransform.position, villagerTransform.rotation) as T;
+            if (newVillager == null)
+            {
+                Debug.LogError($"Error instantiating new villager");
+                return null;
+            }
+            
+            Destroy(toConvert.gameObject);
+            return newVillager;
         }
 
         /// <summary>

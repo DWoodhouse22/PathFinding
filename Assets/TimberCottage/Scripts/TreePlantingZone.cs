@@ -5,6 +5,9 @@ using Random = UnityEngine.Random;
 
 namespace TimberCottage.Pathfinding
 {
+    /// <summary>
+    /// A zone defined for planting trees
+    /// </summary>
     public class TreePlantingZone : MonoBehaviour
     {
         [SerializeField] private bool drawGizmos;
