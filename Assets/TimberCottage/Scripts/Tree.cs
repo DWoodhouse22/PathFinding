@@ -51,7 +51,6 @@ namespace TimberCottage.Pathfinding
         private void OnFullyGrown()
         {
             _isGrown = true;
-            Debug.Log("Tree is fully grown");
         }
 
         private IEnumerator TreeGrowthRoutine()

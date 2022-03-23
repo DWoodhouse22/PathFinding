@@ -15,7 +15,6 @@ namespace TimberCottage.Pathfinding
         [SerializeField] private float radius;
         [SerializeField] private Tree treePrefab;
         private float _randomRange => radius * .5f;
-        private Vector3 _plantingLocation = Vector3.zero;
         private PathFindingGrid _pathFindingGrid;
 
         private void Start()
@@ -34,8 +33,7 @@ namespace TimberCottage.Pathfinding
         /// </summary>
         public void PlantTree()
         {
-            _plantingLocation = GetPlantingLocation();
-            Instantiate(treePrefab, _plantingLocation, Quaternion.identity, transform);
+            Instantiate(treePrefab, GetPlantingLocation(), Quaternion.identity, transform);
             _pathFindingGrid.CalculateNodes();
         }
 

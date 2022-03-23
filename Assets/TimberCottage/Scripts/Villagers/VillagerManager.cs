@@ -81,7 +81,7 @@ namespace TimberCottage.Pathfinding
         {
             if (toConvert.VillagerType == villagerType)
             {
-                return (T)toConvert;
+                return null;
             }
 
             if (_villagerTypeToPrefab.TryGetValue(villagerType, out VillagerBase prefab) == false)
@@ -89,17 +89,19 @@ namespace TimberCottage.Pathfinding
                 Debug.LogError($"Cannot convert to type {villagerType}");
                 return null;
             }
-
+            
             Transform villagerTransform = toConvert.transform;
-            T newVillager = Instantiate(prefab, villagerTransform.position, villagerTransform.rotation) as T;
-            if (newVillager == null)
+            VillagerBase newVillager = Instantiate(prefab, villagerTransform.position, villagerTransform.rotation);
+            T result = newVillager as T;
+            if (result == null)
             {
                 Debug.LogError($"Error instantiating new villager");
+                Destroy(newVillager.gameObject);
                 return null;
             }
             
             Destroy(toConvert.gameObject);
-            return newVillager;
+            return result;
         }
 
         /// <summary>
@@ -192,7 +194,6 @@ namespace TimberCottage.Pathfinding
         /// <param name="callback">Callback fired when villager is available</param>
         public void RequestVillager(EVillagerType villagerType, Action<VillagerBase> callback)
         {
-            Debug.Log($"Requesting {villagerType}");
             VillagerRequest request = new VillagerRequest(villagerType, callback);
             _villagerRequests.Enqueue(request);
         }
@@ -237,6 +238,11 @@ namespace TimberCottage.Pathfinding
 
         private void RequestVillagerBase(VillagerRequest request)
         {
+            if (_availableVillagers.Count == 0)
+            {
+                return;
+            }
+            
             VillagerBase villager = _availableVillagers.First();
             if (villager == null)
             {

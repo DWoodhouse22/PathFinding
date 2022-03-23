@@ -87,8 +87,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e125a572ffa1f54e8c9994724f7610d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 3
   turnSpeed: 3
   turnDistance: 5
-  stoppingDistance: 10
+  stoppingDistance: 1
   villagerType: 2

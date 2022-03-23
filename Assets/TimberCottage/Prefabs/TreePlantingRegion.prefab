@@ -467,7 +467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3771068d4ded89e4da46babfdf53f824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 1
+  drawGizmos: 0
   radius: 5
   _allPlantingSpots:
   - {fileID: 2395831531470534630}
