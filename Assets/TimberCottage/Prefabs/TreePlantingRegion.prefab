@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831531247846552}
   - component: {fileID: 2395831531247846559}
-  m_Layer: 0
-  m_Name: PlantableSpot (10)
+  - component: {fileID: 6294467392390412729}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +46,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &6294467392390412729
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831531247846553}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831531470534624
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,7 +69,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831531470534631}
   - component: {fileID: 2395831531470534630}
-  m_Layer: 0
+  - component: {fileID: 5165219361881421408}
+  m_Layer: 11
   m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,6 +105,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &5165219361881421408
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831531470534624}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831531513428687
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,8 +128,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831531513428686}
   - component: {fileID: 2395831531513428685}
-  m_Layer: 0
-  m_Name: PlantableSpot (3)
+  - component: {fileID: 1608880117085517726}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,6 +164,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &1608880117085517726
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831531513428687}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831531526527292
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,8 +187,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831531526527283}
   - component: {fileID: 2395831531526527282}
-  m_Layer: 0
-  m_Name: PlantableSpot (12)
+  - component: {fileID: 8450832368251397155}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,6 +223,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &8450832368251397155
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831531526527292}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831531646621466
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,8 +246,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831531646621465}
   - component: {fileID: 2395831531646621464}
-  m_Layer: 0
-  m_Name: PlantableSpot (8)
+  - component: {fileID: 4532826323837965930}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,6 +282,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &4532826323837965930
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831531646621466}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831531805791362
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,8 +305,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831531805791361}
   - component: {fileID: 2395831531805791360}
-  m_Layer: 0
-  m_Name: PlantableSpot (16)
+  - component: {fileID: 5189473439106689175}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,6 +341,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &5189473439106689175
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831531805791362}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831531844877434
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,8 +364,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831531844877433}
   - component: {fileID: 2395831531844877432}
-  m_Layer: 0
-  m_Name: PlantableSpot (6)
+  - component: {fileID: 8251487977089240967}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -315,6 +400,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &8251487977089240967
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831531844877434}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831531877343199
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,8 +423,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831531877343198}
   - component: {fileID: 2395831531877343197}
-  m_Layer: 0
-  m_Name: PlantableSpot (15)
+  - component: {fileID: 2257729706569014992}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -360,6 +459,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &2257729706569014992
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831531877343199}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831531969986912
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,8 +482,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831531969986919}
   - component: {fileID: 2395831531969986918}
-  m_Layer: 0
-  m_Name: PlantableSpot (1)
+  - component: {fileID: 7090197112404162943}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -405,6 +518,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &7090197112404162943
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831531969986912}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831532000965403
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,8 +625,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831532109551996}
   - component: {fileID: 2395831532109551987}
-  m_Layer: 0
-  m_Name: PlantableSpot (13)
+  - component: {fileID: 3770074105660814570}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -534,6 +661,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &3770074105660814570
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831532109551997}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831532590400120
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,8 +684,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831532590400127}
   - component: {fileID: 2395831532590400126}
-  m_Layer: 0
-  m_Name: PlantableSpot (11)
+  - component: {fileID: 2951330360385614414}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -579,6 +720,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &2951330360385614414
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831532590400120}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831532637116248
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,8 +743,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831532637116255}
   - component: {fileID: 2395831532637116254}
-  m_Layer: 0
-  m_Name: PlantableSpot (7)
+  - component: {fileID: 5953856256114152543}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -624,6 +779,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &5953856256114152543
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831532637116248}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831532721549217
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,8 +802,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831532721549216}
   - component: {fileID: 2395831532721549223}
-  m_Layer: 0
-  m_Name: PlantableSpot (5)
+  - component: {fileID: 8349082016663962361}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -669,6 +838,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &8349082016663962361
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831532721549217}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831532755707792
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,8 +861,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831532755707799}
   - component: {fileID: 2395831532755707798}
-  m_Layer: 0
-  m_Name: PlantableSpot (2)
+  - component: {fileID: 7029441903549749820}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -714,6 +897,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &7029441903549749820
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831532755707792}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831532899202457
 GameObject:
   m_ObjectHideFlags: 0
@@ -724,8 +920,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831532899202456}
   - component: {fileID: 2395831532899202463}
-  m_Layer: 0
-  m_Name: PlantableSpot (17)
+  - component: {fileID: 4191730551576338225}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -759,6 +956,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &4191730551576338225
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831532899202457}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831532967944747
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,8 +979,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831532967944746}
   - component: {fileID: 2395831532967944745}
-  m_Layer: 0
-  m_Name: PlantableSpot (18)
+  - component: {fileID: 3855603332218625850}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -804,6 +1015,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &3855603332218625850
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831532967944747}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831533033112426
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,8 +1038,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831533033112425}
   - component: {fileID: 2395831533033112424}
-  m_Layer: 0
-  m_Name: PlantableSpot (14)
+  - component: {fileID: 7700177122333833551}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -849,6 +1074,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &7700177122333833551
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831533033112426}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831533209532913
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,8 +1097,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831533209532912}
   - component: {fileID: 2395831533209532919}
-  m_Layer: 0
-  m_Name: PlantableSpot (9)
+  - component: {fileID: 6688754565980996671}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -894,6 +1133,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &6688754565980996671
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831533209532913}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2395831533267088122
 GameObject:
   m_ObjectHideFlags: 0
@@ -904,8 +1156,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2395831533267088121}
   - component: {fileID: 2395831533267088120}
-  m_Layer: 0
-  m_Name: PlantableSpot (4)
+  - component: {fileID: 3770555630915996946}
+  m_Layer: 11
+  m_Name: PlantableSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -939,3 +1192,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   treePrefab: {fileID: 1294349836927540107, guid: cd725371042b62948afffa75172b35a2, type: 3}
+--- !u!135 &3770555630915996946
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395831533267088122}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
