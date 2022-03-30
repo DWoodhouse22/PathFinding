@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace TimberCottage.Pathfinding
 {
@@ -14,7 +16,6 @@ namespace TimberCottage.Pathfinding
         public void Initialise()
         {
             plantingSpots = FindTreePlantingSpotsWithinRange();
-            Debug.Log(plantingSpots.Count);
         }
 
         private List<TreePlantingSpot> FindTreePlantingSpotsWithinRange()
@@ -36,10 +37,26 @@ namespace TimberCottage.Pathfinding
             return spots;
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                GetRandomValidTreePlantingSpot();
+            }
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.white;
             Gizmos.DrawWireSphere(transform.position, radius);
+        }
+
+        public TreePlantingSpot GetRandomValidTreePlantingSpot()
+        {
+            var validSpots = plantingSpots.Where(x => x.CanTreeBeGathered).ToList();
+            int randIndex = Random.Range(0, validSpots.Count);
+
+            return validSpots[randIndex];
         }
     }
 }

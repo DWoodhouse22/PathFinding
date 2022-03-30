@@ -1,19 +1,22 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace TimberCottage.Pathfinding
 {
-    public class Tree : MonoBehaviour
+    public class ForresterTree : MonoBehaviour
     {
         [SerializeField] private Transform meshRoot;
 
         private MeshFilter[] _meshes;
         private IEnumerator _growTreeRoutine;
         private bool _isGrown;
-        private readonly float _timeToMature = 30f;
+        private readonly float _timeToMature = 3f;
         private readonly Vector3 _startingScale = new Vector3(0.1f, 0.1f, 0.1f);
-        
+
+        public event Action OnTreeGrown;
+
         private void Awake()
         {
             meshRoot.transform.localScale = _startingScale;
@@ -51,6 +54,7 @@ namespace TimberCottage.Pathfinding
         private void OnFullyGrown()
         {
             _isGrown = true;
+            OnTreeGrown?.Invoke();
         }
 
         private IEnumerator TreeGrowthRoutine()

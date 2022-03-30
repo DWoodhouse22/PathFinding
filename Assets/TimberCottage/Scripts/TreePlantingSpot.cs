@@ -13,12 +13,17 @@ namespace TimberCottage.Pathfinding
     public class TreePlantingSpot : MonoBehaviour
     {
         [SerializeField] private float radius;
-        [SerializeField] private Tree treePrefab;
+        [SerializeField] private ForresterTree treePrefab;
+
         private float _randomRange => radius * .5f;
         private PathFindingGrid _pathFindingGrid;
+        private ForresterTree _tree;
+
+        public bool CanTreeBeGathered { private set; get; }
 
         private void Start()
         {
+            CanTreeBeGathered = false;
             _pathFindingGrid = FindObjectOfType<PathFindingGrid>();
         }
 
@@ -33,14 +38,27 @@ namespace TimberCottage.Pathfinding
         /// </summary>
         public void PlantTree()
         {
-            Instantiate(treePrefab, GetPlantingLocation(), Quaternion.identity, transform);
+            _tree = Instantiate(treePrefab, GetPlantingLocation(), Quaternion.identity, transform);
             _pathFindingGrid.CalculateNodes();
+            _tree.OnTreeGrown += TreeGrown;
         }
 
         public void DrawGizmos()
         {
             Gizmos.color = Color.black;
             Gizmos.DrawWireSphere(transform.position, radius);
+        }
+
+        private void TreeGrown()
+        {
+            Debug.Log("Tree is grown!");
+            _tree.OnTreeGrown -= TreeGrown;
+            CanTreeBeGathered = true;
+        }
+
+        private void OnTreeGathered()
+        {
+            CanTreeBeGathered = false;
         }
     }
 }
