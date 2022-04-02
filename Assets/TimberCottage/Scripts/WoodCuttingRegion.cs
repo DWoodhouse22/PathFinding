@@ -21,11 +21,10 @@ namespace TimberCottage.Pathfinding
         private List<TreePlantingSpot> FindTreePlantingSpotsWithinRange()
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, radius, treePlantingSpotLayerMask);
-
             List<TreePlantingSpot> spots = new List<TreePlantingSpot>();
             foreach (Collider collider in colliders)
             {
-                var spot = collider.GetComponent<TreePlantingSpot>();
+                TreePlantingSpot spot = collider.GetComponent<TreePlantingSpot>();
                 if (spot == null)
                 {
                     continue;
@@ -53,9 +52,18 @@ namespace TimberCottage.Pathfinding
 
         public TreePlantingSpot GetRandomValidTreePlantingSpot()
         {
-            var validSpots = plantingSpots.Where(x => x.CanTreeBeGathered).ToList();
-            int randIndex = Random.Range(0, validSpots.Count);
+            if (plantingSpots == null || plantingSpots.Count == 0)
+            {
+                return null;
+            }
 
+            List<TreePlantingSpot> validSpots = plantingSpots.Where(x => x.CanTreeBeGathered).ToList();
+            if (validSpots.Count == 0)
+            {
+                return null;
+            }
+
+            int randIndex = Random.Range(0, validSpots.Count);
             return validSpots[randIndex];
         }
     }
